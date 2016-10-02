@@ -21,3 +21,6 @@ Klotside poolt antud punktid suurenevad vastavalt kiirusele.<br />
 Liikumine läheb pidevalt kiiremaks, kuni "game over"<br />
 Tulemus salvestatakse andmebaasi nime juurde.<br />
 Tulemusi saab vaadata edetabelist.<br />
+
+/02.10.2016/
+Raamistik ja raami sisu algus.
