@@ -1,4 +1,5 @@
 # Niisiis idee:
+## Projekt by Marko Mõznikov
 Lihtne mugandatud vanaaegne mäng, kus lendad klotisga ringi ja tulistasid teisi vastu lendavaid klotse.<br />
 Kasutaja saab sisestada oma nime ning nimi salvestatakse sqlite anmebaasi.<br />
 Graafika poolele ei pööra üldse mingit tähelepanu. Ainult lendavad kolmnurgad, nelinurgad, ringid jne.<br />
