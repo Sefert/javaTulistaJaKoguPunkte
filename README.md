@@ -25,3 +25,5 @@ Tulemusi saab vaadata edetabelist.<br />
 
 /02.10.2016/
 Raamistik ja raami sisu algus.
+/25.10.2016/
+Joonista midagi fxis.

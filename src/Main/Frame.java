@@ -5,6 +5,10 @@ import javax.swing.*;
 /**
  * Created by Sefert on 2.10.2016.
  * Koodijupp tekitab raami.
+ * JFrame - Used to represent the stuff a window should have.
+ * This includes borders (resizeable y/n?), titlebar (App name or other message),
+ * controls (minimize/maximize allowed?),
+ * and event handlers for various system events like 'window close' (permit app to exit yet?).
  */
 public class Frame {
     public static void main(String[] args) {
