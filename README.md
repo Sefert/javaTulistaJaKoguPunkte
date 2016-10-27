@@ -23,7 +23,9 @@ Liikumine läheb pidevalt kiiremaks, kuni "game over"<br />
 Tulemus salvestatakse andmebaasi nime juurde.<br />
 Tulemusi saab vaadata edetabelist.<br />
 
-/02.10.2016/
-Raamistik ja raami sisu algus.
-/25.10.2016/
-Joonista midagi fxis.
+/02.10.2016/<br />
+Raamistik ja raami sisu algus.<br />
+/25.10.2016/<br />
+Joonista midagi fxis.<br />
+/28.10.2016/<br />
+Login aken + laev + laeva liikumine + tulistamise algus + andmebaasi algus<br />
