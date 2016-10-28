@@ -29,3 +29,5 @@ Raamistik ja raami sisu algus.<br />
 Joonista midagi fxis.<br />
 /28.10.2016/<br />
 Login aken + laev + laeva liikumine + tulistamise algus + andmebaasi algus<br />
+/29.10.2016/<br />
+Kuuli animatsioon, 1ksiku vastase genereerimine, score counter, kokkupõrke algus<br />

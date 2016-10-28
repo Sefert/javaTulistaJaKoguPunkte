@@ -1,4 +1,5 @@
-import javafx.animation.KeyFrame;
+import javafx.animation.AnimationTimer;
+import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -10,10 +11,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.util.Random;
 
 
 /**
@@ -24,9 +26,15 @@ public class Main extends Application {
     Scene scene;
     Pane pane;
     Stage stage;
-    Circle kuul;
+    Circle kuul, kuulvastane;
     double tippx=400, tippy=500;
     Timeline timeline;
+    AnimationTimer animationTimer;
+    Path path;
+    PathTransition suund;
+    Duration aeg;
+    Random juhus;
+    int score=0;
     @Override
     public void start(Stage primaryStage) throws Exception {
         teeAken();
@@ -58,6 +66,7 @@ public class Main extends Application {
             gameWindow();
             spaceShip();
             tulista();
+            startGame();
         });
 
         edetabel.setOnAction(event -> {
@@ -83,11 +92,7 @@ public class Main extends Application {
     }
     public void spaceShip(){
         Polygon laev = new Polygon();
-        double vasakx=tippx+30, vasaky=tippy+50, paremx=tippx-30, paremy=tippy+50;
-        laev.getPoints().addAll(
-                tippx, tippy,
-                paremx, paremy,
-                vasakx, vasaky);
+
         pane.getChildren().add(laev);
         pane.setOnMouseMoved(event -> {
             laev.getPoints().removeAll(
@@ -102,37 +107,69 @@ public class Main extends Application {
                     tippx+30, tippy+50);
         });
     }
-    public  void tulista(){
+    public void tulista(){
         kuul = new Circle();
         kuul.setRadius(3);
         pane.setOnMousePressed(event -> {
+            //aeg =timeline.getCurrentTime();
             //System.out.println("KLICK");
             if (event.getButton() == MouseButton.PRIMARY) {
+                //double millis=aeg.toMillis();
+                //System.out.println(millis);
                 pane.getChildren().remove(kuul);
                 kuul.setCenterX(tippx);
                 kuul.setCenterY(tippy);
                 pane.getChildren().add(kuul);
                 System.out.println("KLICK");
-                //liigutaKuuli();
-                timeline = new Timeline(new KeyFrame(
-                        Duration.millis(30),
-                        ae -> liigutaKuuli()));
-                timeline.play();
-
+                //if (millis*100%2==0)
+                liigutaKuuli();
+                collisionControll();
             }
         });
     }
     public void liigutaKuuli(){
         System.out.println(tippy);
-
-        if (tippx!=0){
-            for(int i=0; i <= tippy ; i++) {
-                System.out.println("Siin1");
-                kuul.setCenterX(tippx);
-                kuul.setCenterY(tippy - i);
+        path=new Path();
+        path.getElements().add(new MoveTo(tippx,tippy));
+        path.getElements().add (new LineTo(tippx,5.0));
+        suund=new PathTransition();
+        suund.setDuration(Duration.millis(500));
+        suund.setNode(kuul);
+        suund.setPath(path);
+        suund.setCycleCount(1);
+        suund.play();
+    }
+    public int scoreCounter(int b){
+        score += b;
+        return score;
+    }
+    public void vastane(){
+        kuulvastane =new Circle();
+        kuulvastane.setRadius(40);
+        juhus=new Random();
+        kuulvastane.setCenterX(juhus.nextInt(800));
+        kuulvastane.setCenterY(juhus.nextInt(800));
+        pane.getChildren().add(kuulvastane);
+    }
+    private void startGame(){
+        animationTimer = new AnimationTimer(){
+            @Override
+            public void handle(long now) {
+                System.out.println("Siin2");
+                vastane();
+                if (now >= 28_000_000) {
+                    animationTimer.stop();
+                }
             }
-        } else {
-            timeline.stop();
+        };
+        animationTimer.start();
+    }
+    public void collisionControll(){
+        if (kuulvastane.getBoundsInLocal().intersects(kuul.getBoundsInLocal())){
+            pane.getChildren().removeAll(kuulvastane,kuul);
+            int fullscore = scoreCounter(1);
+            System.out.println(fullscore);
+            startGame();
         }
     }
 }
