@@ -26,7 +26,8 @@ public class Main extends Application {
     Scene scene;
     Pane pane;
     Stage stage;
-    Circle kuul, kuulvastane;
+    Circle kuulvastane;
+    Circle kuul;
     double tippx=400, tippy=500;
     Timeline timeline;
     AnimationTimer animationTimer;
@@ -34,7 +35,8 @@ public class Main extends Application {
     PathTransition suund;
     Duration aeg;
     Random juhus;
-    int score=0;
+    int score=0,b;
+    boolean vastane=true, tulista;
     @Override
     public void start(Stage primaryStage) throws Exception {
         teeAken();
@@ -111,65 +113,58 @@ public class Main extends Application {
         kuul = new Circle();
         kuul.setRadius(3);
         pane.setOnMousePressed(event -> {
-            //aeg =timeline.getCurrentTime();
-            //System.out.println("KLICK");
             if (event.getButton() == MouseButton.PRIMARY) {
-                //double millis=aeg.toMillis();
-                //System.out.println(millis);
+                System.out.println("KLICK");
                 pane.getChildren().remove(kuul);
                 kuul.setCenterX(tippx);
                 kuul.setCenterY(tippy);
                 pane.getChildren().add(kuul);
-                System.out.println("KLICK");
-                //if (millis*100%2==0)
-                liigutaKuuli();
-                collisionControll();
+                tulista=true;
             }
         });
     }
-    public void liigutaKuuli(){
-        System.out.println(tippy);
-        path=new Path();
-        path.getElements().add(new MoveTo(tippx,tippy));
-        path.getElements().add (new LineTo(tippx,5.0));
-        suund=new PathTransition();
-        suund.setDuration(Duration.millis(500));
-        suund.setNode(kuul);
-        suund.setPath(path);
-        suund.setCycleCount(1);
-        suund.play();
+    public void liigutaKuuli(int b){
+        kuul.setCenterY(kuul.getCenterY()+b);
+        if (tippy==0)
+            tulista=false;
+        collisionControll();
     }
     public int scoreCounter(int b){
         score += b;
         return score;
     }
     public void vastane(){
+        vastane = false;
         kuulvastane =new Circle();
         kuulvastane.setRadius(40);
         juhus=new Random();
-        kuulvastane.setCenterX(juhus.nextInt(800));
-        kuulvastane.setCenterY(juhus.nextInt(800));
+        kuulvastane.setCenterX(juhus.nextInt(500));
+        kuulvastane.setCenterY(juhus.nextInt(500));
         pane.getChildren().add(kuulvastane);
     }
     private void startGame(){
         animationTimer = new AnimationTimer(){
             @Override
             public void handle(long now) {
-                System.out.println("Siin2");
-                vastane();
-                if (now >= 28_000_000) {
-                    animationTimer.stop();
+                //System.out.println("Siin2");
+                if (vastane) {
+                    vastane();
+                }
+                if (tulista) {
+                    liigutaKuuli(-7);
                 }
             }
         };
         animationTimer.start();
     }
+
     public void collisionControll(){
         if (kuulvastane.getBoundsInLocal().intersects(kuul.getBoundsInLocal())){
             pane.getChildren().removeAll(kuulvastane,kuul);
             int fullscore = scoreCounter(1);
             System.out.println(fullscore);
-            startGame();
+            vastane=true;
+            tulista=false;
         }
     }
 }

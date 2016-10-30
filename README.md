@@ -31,3 +31,5 @@ Joonista midagi fxis.<br />
 Login aken + laev + laeva liikumine + tulistamise algus + andmebaasi algus<br />
 /29.10.2016/<br />
 Kuuli animatsioon, 1ksiku vastase genereerimine, score counter, kokkupõrke algus<br />
+/30.10.2016/<br />
+Üleminek Animationtimer süsteemile<br />
