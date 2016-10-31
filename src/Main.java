@@ -1,6 +1,4 @@
 import javafx.animation.AnimationTimer;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,11 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.*;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.util.Random;
 
@@ -24,19 +19,14 @@ import java.util.Random;
 public class Main extends Application {
     BorderPane borderPane;
     Scene scene;
-    Pane pane;
     Stage stage;
-    Circle kuulvastane;
-    Circle kuul;
     double tippx=400, tippy=500;
-    Timeline timeline;
     AnimationTimer animationTimer;
-    Path path;
-    PathTransition suund;
-    Duration aeg;
     Random juhus;
-    int score=0,b;
+    int score=0, clickcounter=0;
     boolean vastane=true, tulista;
+    Kuul pullet, vpullet;
+    Screen gamewindow;
     @Override
     public void start(Stage primaryStage) throws Exception {
         teeAken();
@@ -65,17 +55,15 @@ public class Main extends Application {
         sisesta.setOnAction(event -> {
             String nimi=nameField.getText();
             stage.close();
-            gameWindow();
+            gamewindow= new Screen();
+            gamewindow.setStage();
             spaceShip();
             tulista();
             startGame();
         });
-
         edetabel.setOnAction(event -> {
-
         });
     }
-
     public void teeAken(){
         borderPane = new BorderPane();
         scene = new Scene(borderPane, 800, 800);
@@ -84,47 +72,32 @@ public class Main extends Application {
         stage.setTitle("Lisa oma nimi highScore edetabeli jaoks!!!");
         stage.show();
     }
-    public void gameWindow(){
-        pane = new Pane();
-        scene= new Scene(pane,800,800);
-        stage= new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Shooter");
-        stage.show();
-    }
     public void spaceShip(){
-        Polygon laev = new Polygon();
-
-        pane.getChildren().add(laev);
-        pane.setOnMouseMoved(event -> {
-            laev.getPoints().removeAll(
-                    tippx, tippy,
-                    tippx-30, tippy+50,
-                    tippx+30, tippy+50);
+        SpaceShip laev = new SpaceShip();
+        laev.genLaev(tippx,tippy);
+        gamewindow.getPane().setOnMouseMoved(event -> {
+            laev.remLaev(tippx,tippy);
             tippx=event.getSceneX();
+            System.out.println(tippx);
             tippy=event.getSceneY();
-            laev.getPoints().addAll(
-                    tippx, tippy,
-                    tippx-30, tippy+50,
-                    tippx+30, tippy+50);
+            laev.genLaev(tippx,tippy);
+            System.out.println(tippy);
+            System.out.println("SINNNNNNNNNNNNNNNN");
         });
     }
     public void tulista(){
-        kuul = new Circle();
-        kuul.setRadius(3);
-        pane.setOnMousePressed(event -> {
+        gamewindow.getPane().setOnMousePressed(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
+                pullet=new Kuul(tippx,tippy,3);
+                clickcounter += 1;
+                pullet.generate();
                 System.out.println("KLICK");
-                pane.getChildren().remove(kuul);
-                kuul.setCenterX(tippx);
-                kuul.setCenterY(tippy);
-                pane.getChildren().add(kuul);
                 tulista=true;
             }
         });
     }
     public void liigutaKuuli(int b){
-        kuul.setCenterY(kuul.getCenterY()+b);
+        pullet.liigutaKuuli(b);
         if (tippy==0)
             tulista=false;
         collisionControll();
@@ -135,18 +108,15 @@ public class Main extends Application {
     }
     public void vastane(){
         vastane = false;
-        kuulvastane =new Circle();
-        kuulvastane.setRadius(40);
         juhus=new Random();
-        kuulvastane.setCenterX(juhus.nextInt(500));
-        kuulvastane.setCenterY(juhus.nextInt(500));
-        pane.getChildren().add(kuulvastane);
+        double a = juhus.nextInt(500);
+        vpullet = new Kuul(a, a, 40);
+        vpullet.generate();
     }
     private void startGame(){
         animationTimer = new AnimationTimer(){
             @Override
             public void handle(long now) {
-                //System.out.println("Siin2");
                 if (vastane) {
                     vastane();
                 }
@@ -159,8 +129,9 @@ public class Main extends Application {
     }
 
     public void collisionControll(){
-        if (kuulvastane.getBoundsInLocal().intersects(kuul.getBoundsInLocal())){
-            pane.getChildren().removeAll(kuulvastane,kuul);
+        if (vpullet.getBounds().intersects(pullet.getBounds())){
+            pullet.remove();
+            vpullet.remove();
             int fullscore = scoreCounter(1);
             System.out.println(fullscore);
             vastane=true;
