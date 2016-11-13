@@ -35,3 +35,5 @@ Kuuli animatsioon, 1ksiku vastase genereerimine, score counter, kokkupõrke algu
 Üleminek Animationtimer süsteemile<br />
 /31.10.2016/<br />
 Üleminek objektorjenteeritusele<br />
+/13.11.2016/<br />
+Parandused objektorjenteerituses/toimiv versioon 1 vastasega<br />

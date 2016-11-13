@@ -1,25 +1,18 @@
+import javafx.scene.Node;
 import javafx.scene.shape.Polygon;
 
 /**
  * Created by Sefert on 31.10.2016.
  */
-public class SpaceShip extends Screen {
-    Polygon laev = new Polygon();
+public class SpaceShip {
+    Polygon laev;
 
-
-    public void genLaev(double tippx,double tippy){
-        pane.getChildren().add(laev);
+    public Node genLaev(double tippx, double tippy){
+        laev=new Polygon();
         laev.getPoints().addAll(
                 tippx, tippy,
                 tippx-30, tippy+50,
                 tippx+30, tippy+50);
-
+        return laev;
     }
-    public void remLaev(double tippx,double tippy){
-        laev.getPoints().removeAll(
-                tippx, tippy,
-                tippx-30, tippy+50,
-                tippx+30, tippy+50);
-    }
-
 }
