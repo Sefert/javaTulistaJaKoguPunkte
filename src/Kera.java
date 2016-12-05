@@ -29,14 +29,20 @@ public class Kera {
         circle.setFill(color);
     }
 
-    public void liigutaKuuli(int b) {
+    public Node liigutaKuuli(int b) {
         circle.setCenterY(circle.getCenterY() + b);
+        return circle;
     }
-    public double[] liiguXY(double x){
+    public Node liiguXY(double x){
         circle.setCenterX(circle.getCenterX()+x);
         circle.setCenterY(liigu.diagonaal(circle.getCenterY())+x);
-       return new double[]{circle.getCenterX(),circle.getCenterY()};
+        return circle;
     }
+    //public double[] liiguXY(double x){
+    //    circle.setCenterX(circle.getCenterX()+x);
+    //    circle.setCenterY(liigu.diagonaal(circle.getCenterY())+x);
+    //   return new double[]{circle.getCenterX(),circle.getCenterY()};
+    //}
     //public double[] liiguXY(double x){
       //  circle.setCenterX(circle.getCenterX()+x);
         //circle.setCenterY(liigu.parapool(circle.getCenterX()));
