@@ -39,3 +39,5 @@ Kuuli animatsioon, 1ksiku vastase genereerimine, score counter, kokkupõrke algu
 Parandused objektorjenteerituses/<b>toimiv versioon 1 vastasega</b><br />
 /04.12.2016/<br />
 Array vastasega<br />
+/05.12.2016/<br />
+Minifix erroritele<br />

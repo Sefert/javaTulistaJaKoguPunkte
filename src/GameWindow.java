@@ -22,7 +22,7 @@ public class GameWindow {
     double tippx=400, tippy=500;
     int a=0;
     Node shape, ship, vshape;
-    boolean vastane=true, tulista=false, alghetk =false, genvastane=false, lasevastane=false;
+    boolean vastane=true, tulista=false, alghetk =false, liiguvastane =false, lasevastane=false;
     Kera circle, kuul;
     Random juhus;
     AnimationTimer animationTimer;
@@ -71,13 +71,14 @@ public class GameWindow {
     public void laseVastane(int i){
         vshape = vastased.get(i).kera(0,0,40,Color.RED);
         pane.getChildren().add(vshape);
-        genvastane=true;
+        liiguvastane = true;
     }
     private void startGame(){
         animationTimer = new AnimationTimer(){
             @Override
             public void handle(long now) {
                 praegu=now;
+                shipCollision();
                 if (vastane) {
                     genvastane();
                     lasevastane=true;
@@ -121,10 +122,10 @@ public class GameWindow {
                         pulletCollision();                                 //kokkupõrkekontroll
                     }
                 }
-                if (genvastane){
+                if (liiguvastane){
                     for (int i=0;i<vastased.size();i++){
                         double[] x = vastased.get(i).liiguXY(1);
-                        shipCollision();
+                        //shipCollision();
                         if (x[0] >= 880 || x[1] >= 880) {
                             pane.getChildren().remove(vshape);
                         }
@@ -160,7 +161,7 @@ public class GameWindow {
             pane.getChildren().removeAll(vshape,shape);
             fullscore = scoreCounter(100);
             stage.setTitle("Shooter - punktisumma on:  " + fullscore);
-            vastane=true;
+            //vastane=true;
             tulista=false;
         }
     }
