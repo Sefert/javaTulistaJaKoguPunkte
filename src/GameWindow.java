@@ -176,7 +176,7 @@ public class GameWindow {
             fullscore = scoreCounter(100);
             stage.setTitle("Shooter - punktisumma on:  " + fullscore);
             b--;
-            a--;
+            //a--;
         }
     }
     public void shipCollision(Node vshape){
