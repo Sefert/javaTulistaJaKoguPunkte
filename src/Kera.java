@@ -29,7 +29,7 @@ public class Kera {
         circle.setFill(color);
     }
 
-    public Node liigutaKuuli(int b) {
+    public Node liigutaKuuli(double b) {
         circle.setCenterY(circle.getCenterY() + b);
         return circle;
     }

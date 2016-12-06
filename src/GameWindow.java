@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -21,13 +22,13 @@ public class GameWindow {
     Pane pane;
     double tippx=400, tippy=500;
     int a=0, b=0;
-    Node shape,shape2 , ship, vshape;
-    boolean vastane=true, tulista = false, alghetk =false, liiguvastane =false, lasevastane=false, lisakuul=false;
+    Node shape, ship, vshape;
+    boolean vastane=true, tulista = false, alghetk =false, liiguvastane =false, lasevastane=false;
     Kera circle, kuul;
     Random juhus;
     AnimationTimer animationTimer;
     int score=0, fullscore=0;
-    long tAlghetkAeg, vAlghetkAeg, praegu;
+    long vAlghetkAeg, praegu;
     ArrayList<Kera> valang= new ArrayList();
     ArrayList<Kera> vastased= new ArrayList();
 
@@ -65,7 +66,6 @@ public class GameWindow {
             circle= new Kera();
             vastased.add(i,circle);
         }
-        System.out.println(vastased.size());
         vastane = false;                                                    //peale genereerimist ei või uuesti genereerida
     }
     public void valjastaVastane(int i){
@@ -78,7 +78,6 @@ public class GameWindow {
             @Override
             public void handle(long now) {
                 praegu=now;
-                //shipCollision();
                 if (vastane) {
                     genvastane();
                     lasevastane=true;
@@ -99,10 +98,10 @@ public class GameWindow {
                     if (Math.round(now / 1_000_000_000)-vAlghetkAeg == 1){
                         a++;
                         lasevastane=true;
-                        System.out.println(a);
+                        //System.out.println(a);
                     }
                 } else {
-                    System.out.println(a);
+                    //System.out.println(a);
                     a=0;
                     for (int i=0;i<vastased.size();i++) {
                         vshape = vastased.get(i).kera(0,0,40,Color.RED);
@@ -118,22 +117,24 @@ public class GameWindow {
                         b++;
                         alghetk = false;
                     }
-                    for(int i=0;i<valang.size();i++) {
-                        shape2=valang.get(i).liigutaKuuli(-7);                    //kera liikumise esile kutsumine
-                    }
                 }
                 if (liiguvastane){
                     for (int i=0;i<vastased.size();i++){
                         vshape = vastased.get(i).liiguXY(1);
+                        if (tulista)
+                            for(int j=0;j<valang.size();j++) {
+                                shape=valang.get(j).liigutaKuuli(-0.4);                    //kera liikumise esile kutsumine
+                                pulletCollision(vshape,shape,i,j);                         //kokkupõrkekontroll
+                                if (shape.intersects(0,-10,800,1)){
+                                    //System.out.println("kohal");
+                                    valang.remove(j);
+                                    b--;
+                                }
+                            }
                         try {
                             shipCollision(vshape);
-                            if (tulista)
-                                //for(int j=0;j<valang.size();j++) {
-                                //    shape=valang.get(j).liigutaKuuli(-7);                    //kera liikumise esile kutsumine
-                                    pulletCollision(vshape,shape2,i);                                 //kokkupõrkekontroll
-                                //}
                         }catch (NullPointerException e){
-                            System.out.println("error Nullpointer püütud");
+                            //System.out.println("error Nullpointer püütud");
                         }
 
                         //if (x[0] >= 880 || x[1] >= 880) {
@@ -156,7 +157,6 @@ public class GameWindow {
 
     public void tulista(int b){
         kuul = new Kera();                                              //uue kera tüüpi elemendi defineerimine
-        //pane.getChildren().removeAll(shape);                          //vana kera/kuuli eemaldamine
         shape = kuul.kera(tippx,tippy,3,Color.ALICEBLUE);               //kuuli genereerimine
         valang.add(b,kuul);
         pane.getChildren().add(shape);                                  //kuuli kuvamine
@@ -166,13 +166,15 @@ public class GameWindow {
         score += b;                                                     //loendab punkte  võrra suurendades
         return score;                                                   //tagastab punktide väärtuse
     }
-    public void pulletCollision(Node vshape,Node shape, int i){
+    public void pulletCollision(Node vshape, Node shape, int i, int j){
         if (vshape.getBoundsInLocal().intersects(shape.getBoundsInLocal())){
             vastased.remove(i);
+            valang.remove(j);
+            valang.removeIf(Objects::isNull);
             pane.getChildren().removeAll(vshape,shape);
             fullscore = scoreCounter(100);
             stage.setTitle("Shooter - punktisumma on:  " + fullscore);
-            //tulista =false;
+            b--;
         }
     }
     public void shipCollision(Node vshape){

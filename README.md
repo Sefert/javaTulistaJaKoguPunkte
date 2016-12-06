@@ -41,3 +41,5 @@ Parandused objektorjenteerituses/<b>toimiv versioon 1 vastasega</b><br />
 Array vastasega<br />
 /05.12.2016/<br />
 Minifix erroritele/toimiv laeva collision vastasega/bugine multi tulistamise võimalus<br />
+/06.12.2016/<br />
+Toimiv tulistamine mitu korda klikkides<br />
