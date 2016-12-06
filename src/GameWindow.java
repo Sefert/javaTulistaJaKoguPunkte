@@ -169,12 +169,14 @@ public class GameWindow {
     public void pulletCollision(Node vshape, Node shape, int i, int j){
         if (vshape.getBoundsInLocal().intersects(shape.getBoundsInLocal())){
             vastased.remove(i);
+            System.out.println(vastased.size());
             valang.remove(j);
             valang.removeIf(Objects::isNull);
             pane.getChildren().removeAll(vshape,shape);
             fullscore = scoreCounter(100);
             stage.setTitle("Shooter - punktisumma on:  " + fullscore);
             b--;
+            a--;
         }
     }
     public void shipCollision(Node vshape){
