@@ -51,7 +51,6 @@ public class GameWindow {
     }
     public void spaceShip(){
         Kolmnurk laev = new Kolmnurk();                                     //uue Spaceship klassi defineerimine
-
         pane.setOnMouseMoved(event -> {                                     //hiire liigutuse peale sündmuse esile kutsumine
             pane.getChildren().removeAll(ship);                             //vana leava eemaldamine
             tippx = event.getSceneX();                                      //hiire x koordinaat
@@ -62,14 +61,15 @@ public class GameWindow {
     }
     public void genvastane(){
         juhus=new Random();
-        for (int i=0;i<juhus.nextInt(200);i++){
+        for (int i=0;i<juhus.nextInt(400)+1;i++){
             circle= new Kera();
             vastased.add(i,circle);
         }
         vastane = false;                                                    //peale genereerimist ei või uuesti genereerida
     }
     public void valjastaVastane(int i){
-        vshape = vastased.get(i).kera(0,0,40,Color.RED);
+        juhus=new Random();
+        vshape = vastased.get(i).kera(juhus.nextInt(800)-400,-50,30,Color.RED);
         pane.getChildren().add(vshape);
         liiguvastane = true;
     }
@@ -91,25 +91,21 @@ public class GameWindow {
                     if (lasevastane){
                         valjastaVastane(a);
                         vAlghetkAeg=Math.round(now / 1_000_000_000);
-                        //System.out.println(vAlghetkAeg);
                         lasevastane=false;
-
                     }
                     if (Math.round(now / 1_000_000_000)-vAlghetkAeg == 1){
                         a++;
                         lasevastane=true;
-                        //System.out.println(a);
                     }
                 } else {
                     //System.out.println(a);
                     a=0;
                     for (int i=0;i<vastased.size();i++) {
-                        vshape = vastased.get(i).kera(0,0,40,Color.RED);
+                        vshape = vastased.get(i).kera(circle.centerx,circle.centery,circle.radius,circle.color);
                         pane.getChildren().remove(vshape);
                     }
                     vastased.clear();
                     vastane=true;
-
                 }
                 if (tulista) {
                     if (alghetk){
@@ -126,11 +122,12 @@ public class GameWindow {
                                 shape=valang.get(j).liigutaKuuli(-0.4);                    //kera liikumise esile kutsumine
                                 pulletCollision(vshape,shape,i,j);                         //kokkupõrkekontroll
                                 if (shape.intersects(0,-10,800,1)){
-                                    //System.out.println("kohal");
                                     valang.remove(j);
                                     b--;
                                 }
                             }
+                        //if (vshape != null && shape != null)
+                        //    shipCollision(vshape);
                         try {
                             shipCollision(vshape);
                         }catch (NullPointerException e){
@@ -154,13 +151,11 @@ public class GameWindow {
             }
         });
     }
-
     public void tulista(int b){
         kuul = new Kera();                                              //uue kera tüüpi elemendi defineerimine
         shape = kuul.kera(tippx,tippy,3,Color.ALICEBLUE);               //kuuli genereerimine
         valang.add(b,kuul);
         pane.getChildren().add(shape);                                  //kuuli kuvamine
-                                                                        //väärtus, mis tõestab, et tegemist on kuuliga
     }
     public int scoreCounter(int b){
         score += b;                                                     //loendab punkte  võrra suurendades
@@ -172,6 +167,7 @@ public class GameWindow {
             System.out.println(vastased.size());
             valang.remove(j);
             valang.removeIf(Objects::isNull);
+            vastased.removeIf(Objects::isNull);
             pane.getChildren().removeAll(vshape,shape);
             fullscore = scoreCounter(100);
             stage.setTitle("Shooter - punktisumma on:  " + fullscore);
