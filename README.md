@@ -45,3 +45,8 @@ Minifix erroritele/toimiv laeva collision vastasega/bugine multi tulistamise võ
 Toimiv tulistamine mitu korda klikkides<br />
 Bug - aegajalt on game over nähtamatule arraylistile pihta minnes<br />
 Bug - mängu veider aeglustumine ja fps drop<br />
+/07.12.2016/<br />
+Kiiruse muut ajas/vastase hajusus arrays/random vastase suurus antud vahemikus<br />
+Bug - aegajalt on game over nähtamatule arraylistile pihta minnes<br />
+Bug - mängu veider aeglustumine ja fps drop<br />
+

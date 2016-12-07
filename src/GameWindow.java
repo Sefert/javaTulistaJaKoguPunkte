@@ -21,14 +21,14 @@ public class GameWindow {
     Stage stage;
     Pane pane;
     double tippx=400, tippy=500;
-    int a=0, b=0;
+    int a=0, b=0, c=1;
     Node shape, ship, vshape;
-    boolean vastane=true, tulista = false, alghetk =false, liiguvastane =false, lasevastane=false;
+    boolean vastane=true, tulista = false, alghetk =false, liiguvastane =false, lasevastane=false, kaimapanek=true;
     Kera circle, kuul;
     Random juhus;
     AnimationTimer animationTimer;
     int score=0, fullscore=0;
-    long vAlghetkAeg, praegu;
+    long vAlghetkAeg, praegu, kaimapanekuAeg;
     ArrayList<Kera> valang= new ArrayList();
     ArrayList<Kera> vastased= new ArrayList();
 
@@ -69,24 +69,24 @@ public class GameWindow {
     }
     public void valjastaVastane(int i){
         juhus=new Random();
-        vshape = vastased.get(i).kera(juhus.nextInt(800)-400,-50,30,Color.RED);
+        vshape = vastased.get(i).kera(juhus.nextInt(800)-400,-50,juhus.nextInt(60)+10,Color.RED);
         pane.getChildren().add(vshape);
         liiguvastane = true;
+
     }
     private void startGame(){
         animationTimer = new AnimationTimer(){
             @Override
             public void handle(long now) {
                 praegu=now;
+                if (kaimapanek) {
+                    kaimapanekuAeg = Math.round(now / 1_000_000_000);
+                    kaimapanek=false;
+                }
                 if (vastane) {
                     genvastane();
                     lasevastane=true;
                 }
-                //System.out.println(now);
-                //System.out.println(now-vAlghetkAeg);
-                //System.out.println(a);
-                //System.out.println(vastased.size());
-                //System.out.println(Math.round(now / 1_000_000_000));
                 if (a != vastased.size()){
                     if (lasevastane){
                         valjastaVastane(a);
@@ -98,7 +98,6 @@ public class GameWindow {
                         lasevastane=true;
                     }
                 } else {
-                    //System.out.println(a);
                     a=0;
                     for (int i=0;i<vastased.size();i++) {
                         vshape = vastased.get(i).kera(circle.centerx,circle.centery,circle.radius,circle.color);
@@ -115,8 +114,14 @@ public class GameWindow {
                     }
                 }
                 if (liiguvastane){
+                    if (Math.round(now / 1_000_000_000)-kaimapanekuAeg==10) {
+                        if (c<10) {
+                            c++;
+                            kaimapanekuAeg = Math.round(now / 1_000_000_000);
+                        }
+                    }
                     for (int i=0;i<vastased.size();i++){
-                        vshape = vastased.get(i).liiguXY(1);
+                        vshape = vastased.get(i).liiguXY(c);
                         if (tulista)
                             for(int j=0;j<valang.size();j++) {
                                 shape=valang.get(j).liigutaKuuli(-0.4);                    //kera liikumise esile kutsumine
@@ -126,17 +131,11 @@ public class GameWindow {
                                     b--;
                                 }
                             }
-                        //if (vshape != null && shape != null)
-                        //    shipCollision(vshape);
                         try {
                             shipCollision(vshape);
                         }catch (NullPointerException e){
                             //System.out.println("error Nullpointer püütud");
                         }
-
-                        //if (x[0] >= 880 || x[1] >= 880) {
-                        //    pane.getChildren().remove(vshape);
-                        //}
                     }
                 }
             }
