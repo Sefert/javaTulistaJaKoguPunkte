@@ -43,3 +43,5 @@ Array vastasega<br />
 Minifix erroritele/toimiv laeva collision vastasega/bugine multi tulistamise võimalus<br />
 /06.12.2016/<br />
 Toimiv tulistamine mitu korda klikkides<br />
+Bug - aegajalt on game over nähtamatule arraylistile pihta minnes<br />
+Bug - mängu veider aeglustumine ja fps drop<br />
