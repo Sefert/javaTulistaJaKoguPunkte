@@ -22,8 +22,8 @@ public class GameWindow {
     Pane pane;
     double tippx=400, tippy=500;
     int a=0, b=0, c=1;
-    Node shape, ship, vshape;
-    boolean vastane=true, tulista = false, alghetk =false, liiguvastane =false, lasevastane=false, kaimapanek=true;
+    Node shape, ship, vshape, vshape2;
+    boolean alghetk =false, liiguvastane =false, lasevastane=true, kaimapanek=true;
     Kera circle, kuul;
     Random juhus;
     AnimationTimer animationTimer;
@@ -59,20 +59,13 @@ public class GameWindow {
             pane.getChildren().add(ship);                                   //laeva kuvamine
         });
     }
-    public void genvastane(){
-        juhus=new Random();
-        for (int i=0;i<juhus.nextInt(400)+1;i++){
-            circle= new Kera();
-            vastased.add(i,circle);
-        }
-        vastane = false;                                                    //peale genereerimist ei või uuesti genereerida
-    }
     public void valjastaVastane(int i){
+        circle= new Kera();
         juhus=new Random();
-        vshape = vastased.get(i).kera(juhus.nextInt(800)-400,-50,juhus.nextInt(60)+10,Color.RED);
+        vshape = circle.kera(juhus.nextInt(800)-400,-50,juhus.nextInt(60)+20,Color.RED);
+        vastased.add(i,circle);
         pane.getChildren().add(vshape);
         liiguvastane = true;
-
     }
     private void startGame(){
         animationTimer = new AnimationTimer(){
@@ -83,38 +76,22 @@ public class GameWindow {
                     kaimapanekuAeg = Math.round(now / 1_000_000_000);
                     kaimapanek=false;
                 }
-                if (vastane) {
-                    genvastane();
+                if (lasevastane){
+                    valjastaVastane(a);
+                    vAlghetkAeg=Math.round(now / 1_000_000_000);
+                    a++;
+                    lasevastane=false;
+                }
+                if (Math.round(now / 1_000_000_000)-vAlghetkAeg == 1){
                     lasevastane=true;
                 }
-                if (a != vastased.size()){
-                    if (lasevastane){
-                        valjastaVastane(a);
-                        vAlghetkAeg=Math.round(now / 1_000_000_000);
-                        lasevastane=false;
-                    }
-                    if (Math.round(now / 1_000_000_000)-vAlghetkAeg == 1){
-                        a++;
-                        lasevastane=true;
-                    }
-                } else {
-                    a=0;
-                    for (int i=0;i<vastased.size();i++) {
-                        vshape = vastased.get(i).kera(circle.centerx,circle.centery,circle.radius,circle.color);
-                        pane.getChildren().remove(vshape);
-                    }
-                    vastased.clear();
-                    vastane=true;
-                }
-                if (tulista) {
-                    if (alghetk){
-                        tulista(b);
-                        b++;
-                        alghetk = false;
-                    }
+                if (alghetk){
+                    tulista(b);
+                    b++;
+                    alghetk = false;
                 }
                 if (liiguvastane){
-                    if (Math.round(now / 1_000_000_000)-kaimapanekuAeg==10) {
+                    if (Math.round(now / 1_000_000_000)-kaimapanekuAeg==30) {
                         if (c<10) {
                             c++;
                             kaimapanekuAeg = Math.round(now / 1_000_000_000);
@@ -122,15 +99,21 @@ public class GameWindow {
                     }
                     for (int i=0;i<vastased.size();i++){
                         vshape = vastased.get(i).liiguXY(c);
-                        if (tulista)
+                        if (valang.size()>0)
                             for(int j=0;j<valang.size();j++) {
-                                shape=valang.get(j).liigutaKuuli(-0.4);                    //kera liikumise esile kutsumine
+                                shape=valang.get(j).liigutaKuuli(-1);                    //kera liikumise esile kutsumine
                                 pulletCollision(vshape,shape,i,j);                         //kokkupõrkekontroll
                                 if (shape.intersects(0,-10,800,1)){
                                     valang.remove(j);
                                     b--;
                                 }
                             }
+                        if (vshape.intersects(0,810,3000,1)) {
+                            pane.getChildren().remove(vshape);
+                            a--;
+                            vastased.remove(i);
+                            System.out.println(vastased.size());
+                        }
                         try {
                             shipCollision(vshape);
                         }catch (NullPointerException e){
@@ -146,7 +129,6 @@ public class GameWindow {
         pane.setOnMousePressed(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {             //premkliki defineerimine
                 alghetk =true;
-                tulista =true;
             }
         });
     }
@@ -162,16 +144,36 @@ public class GameWindow {
     }
     public void pulletCollision(Node vshape, Node shape, int i, int j){
         if (vshape.getBoundsInLocal().intersects(shape.getBoundsInLocal())){
-            vastased.remove(i);
-            System.out.println(vastased.size());
-            valang.remove(j);
-            valang.removeIf(Objects::isNull);
-            vastased.removeIf(Objects::isNull);
-            pane.getChildren().removeAll(vshape,shape);
-            fullscore = scoreCounter(100);
-            stage.setTitle("Shooter - punktisumma on:  " + fullscore);
-            b--;
-            //a--;
+            if (vshape.getBoundsInLocal().getHeight()>70){
+                Kera uuscircle=new Kera();
+                double xmax = vshape.getBoundsInLocal().getMaxX();
+                //System.out.println(x);
+                double xmin = vshape.getBoundsInLocal().getMinX();
+                //System.out.println(x2);
+                double ymax = vshape.getBoundsInLocal().getMaxY();
+                double ymin = vshape.getBoundsInLocal().getMinY();
+                int r = (int)vshape.getBoundsInLocal().getHeight();
+                pane.getChildren().removeAll(vshape,shape);
+                valang.remove(j);
+                vastased.set(i,uuscircle);
+                vshape2=uuscircle.kera((xmax-xmin)/2+xmin,(ymax-ymin)/2+ymin,r/2-20,Color.RED);
+                pane.getChildren().add(vshape2);
+                fullscore = scoreCounter(100);
+                stage.setTitle("Shooter - punktisumma on:  " + fullscore);
+                b--;
+                System.out.println(vastased.size());
+            } else {
+                vastased.remove(i);
+                System.out.println(vastased.size());
+                valang.remove(j);
+                valang.removeIf(Objects::isNull);
+                vastased.removeIf(Objects::isNull);
+                pane.getChildren().removeAll(vshape, shape);
+                fullscore = scoreCounter(100);
+                stage.setTitle("Shooter - punktisumma on:  " + fullscore);
+                b--;
+                a--;
+            }
         }
     }
     public void shipCollision(Node vshape){

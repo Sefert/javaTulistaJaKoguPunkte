@@ -49,4 +49,8 @@ Bug - mängu veider aeglustumine ja fps drop<br />
 Kiiruse muut ajas/vastase hajusus arrays/random vastase suurus antud vahemikus<br />
 Bug - aegajalt on game over nähtamatule arraylistile pihta minnes<br />
 Bug - mängu veider aeglustumine ja fps drop<br />
+/08.12.2016/<br />
+Koodi lihtsustamine/vastasse arraylist jookseb pidevalt ilma katkestuseta/lisatud vastase resistsus<br />
+Bug - tuvastatud läbi tulistamise visuaalselt, et aegajalt genereeritakse või jääb listi alles nähtamatu vaenlane. Põhjus - unknown<br />
+Bug - mängu FPS drop rate, ilmselt vaja kuidagi arvutada systeemne FPS<br />
 
