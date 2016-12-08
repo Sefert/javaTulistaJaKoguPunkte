@@ -13,20 +13,25 @@ public class Kera {
     Color color;
     Liigu liigu=new Liigu();
 
-    public Node kera(double x, double y, int r,Color c) {
+    public Node kera(double x, double y, int r,Color c,int stroke) {
         this.centerx = x;
         this.centery = y;
         this.radius = r;
         this.color = c;
-        generate();
+        generate(stroke);
         return circle;
     }
 
-    public void generate() {
+    public void generate(int stroke) {
         circle.setRadius(radius);
         circle.setCenterX(centerx);
         circle.setCenterY(centery);
-        circle.setFill(color);
+        if (stroke>0) {
+            circle.setStroke(color);
+            circle.setStrokeWidth(stroke);
+            circle.setFill(Color.TRANSPARENT);
+        } else
+            circle.setFill(color);
     }
 
     public Node liigutaKuuli(double b) {
@@ -35,7 +40,6 @@ public class Kera {
     }
     public Node liiguXY(double x){
         //if (circle.getCenterX() > 400 && circle.getCenterY() < 100)
-
         circle.setCenterX(circle.getCenterX()+x);
         circle.setCenterY(liigu.diagonaal(circle.getCenterY())+x);
         return circle;
