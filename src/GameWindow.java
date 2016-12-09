@@ -20,7 +20,7 @@ public class GameWindow {
     Scene scene;
     Stage stage;
     Pane pane;
-    double tippx=400, tippy=500;
+    double tippx=400, tippy=500,p=10,f=-1.5;
     int a=0, b=0, c=1;
     Color laevavarv = Color.WHITE;
     Node shape, ship, vshape, vshape2, bar;
@@ -79,6 +79,12 @@ public class GameWindow {
         pane.getChildren().add(vshape);
         liiguvastane = true;
     }
+    public void timeController(){
+        c++;
+        System.out.println("Kiirus on "+ c);
+        f-=0.5;
+        System.out.println("Kuuli kiirus on "+ f);
+    }
     private void startGame(){
         animationTimer = new AnimationTimer(){
             @Override
@@ -103,12 +109,22 @@ public class GameWindow {
                 }
                 if (lasevastane){
                     valjastaVastane(a);
-                    vastaseAlgAeg =Math.round(now / 1_000_000_000);
+                    vastaseAlgAeg =Math.round(now / 100_000_000);
                     a++;
                     lasevastane=false;
                 }
-                if (Math.round(now / 1_000_000_000)- vastaseAlgAeg == 1){
-                    lasevastane=true;
+                if (c<3) {
+                    if (Math.round(now / 100_000_000) - vastaseAlgAeg == 10) {
+                        lasevastane = true;
+                    }
+                } else if (c==3 || c==4){
+                    if (Math.round(now / 100_000_000)- vastaseAlgAeg == 8){
+                        lasevastane=true;
+                    }
+                } else if (c>4){
+                    if (Math.round(now / 100_000_000)- vastaseAlgAeg == 6){
+                        lasevastane=true;
+                    }
                 }
                 if (tulistamisealghetk){
                     tulista(b);
@@ -116,9 +132,9 @@ public class GameWindow {
                     tulistamisealghetk = false;
                 }
                 if (liiguvastane){
-                    if (Math.round(now / 1_000_000_000)- kiiruseAlgAeg ==30) {
-                        if (c<10) {
-                            c++;
+                    if (Math.round(now / 1_000_000_000)- kiiruseAlgAeg == 30) {
+                        if (c<6) {
+                            timeController();
                             kiiruseAlgAeg = Math.round(now / 1_000_000_000);
                         }
                     }
@@ -126,14 +142,14 @@ public class GameWindow {
                         vshape = vastased.get(i).liiguXY(c);
                         if (valang.size()>0)
                             for(int j=0;j<valang.size();j++) {
-                                shape=valang.get(j).liigutaKuuli(-1);                    //kera liikumise esile kutsumine
+                                shape=valang.get(j).liigutaKuuli(f);                    //kera liikumise esile kutsumine
                                 pulletCollision(vshape,shape,i,j);                         //kokkupõrkekontroll
-                                if (shape.intersects(0,-10,800,1)){
+                                if (shape.intersects(0,-10,800,5)){
                                     valang.remove(j);
                                     b--;
                                 }
                             }
-                        if (vshape.intersects(0,810,3000,1)) {
+                        if (vshape.intersects(0,810,3000,5)) {
                             pane.getChildren().remove(vshape);
                             a--;
                             vastased.remove(i);
@@ -224,7 +240,7 @@ public class GameWindow {
         if (bar.getBoundsInLocal().intersects(vshape.getBoundsInLocal())){
             pane.getChildren().remove(vshape);
             vastased.remove(i);
-            fullscore = scoreCounter(50);
+            fullscore = scoreCounter(100);
             stage.setTitle("Shooter - punktisumma on:  " + fullscore);
             a--;
         }

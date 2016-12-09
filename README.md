@@ -56,4 +56,6 @@ Koodi lihtsustamine/vastasse arraylist jookseb pidevalt ilma katkestuseta/lisatu
 /lisatud collision shieldiga.
 Bug - tuvastatud läbi tulistamise visuaalselt, et aegajalt genereeritakse või jääb listi alles nähtamatu vaenlane. Põhjus - unknown<br />
 Bug - mängu FPS drop rate, ilmselt vaja kuidagi arvutada systeemne FPS<br />
+/09.12.2016/<br />
+FPS optimiseerimine/shield punktide muudatus 100-le/max speed vähendatud 2x<br />
 
