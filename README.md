@@ -4,7 +4,7 @@
 Laev liigub hiirt liigutades<br />
 Tulistada saab parema hiirenupu alt<br />
 Punktisumma on parem üleval ääres<br />
-Iga 5000 punkti tagant muutub laev lillaks ja saab kasutada kaitsekilpi, mis kestab 10 sekundit.<br />
+Iga 5000 punkti tagant muutub laev lillaks ja saab kasutada kaitsekilpi, mis kestab 10 sekundit-vasaku kliki all<br />
 Iga 60s tagant muutub mäng kiiremaks. Max kiirusaste 6x.<br />
 Vastase pihta ei tohi minna-ainult 1 elu.<br />
 
