@@ -47,6 +47,7 @@ public class GameWindow {
         stage= new Stage();
         stage.setScene(scene);
         stage.setTitle("Shooter - punktisumma on:  " + fullscore);          //punktisumma kuvamine
+        stage.setResizable(false);
         stage.show();                                                       //kuva välja
     }
     public void spaceShip(){                                                //barjääri ja laeva genereerimine hiire liigutamisel
@@ -77,9 +78,9 @@ public class GameWindow {
         circle= new Kera();
         juhus=new Random();
         if (vastased.size()%3==0)
-            vshape=circle.kera(juhus.nextInt(1100)-700,-50,juhus.nextInt(60)+20,Color.ORCHID,0);
+            vshape=circle.kera(juhus.nextInt(1050)-650,-50,juhus.nextInt(60)+20,Color.ORCHID,0);
         else
-            vshape = circle.kera(juhus.nextInt(1100)-700,-50,juhus.nextInt(60)+20,Color.CORAL,0);
+            vshape = circle.kera(juhus.nextInt(1050)-650,-50,juhus.nextInt(60)+20,Color.CORAL,0);
         vastased.add(i,circle);                                             //vastase lisamine arraysse(kohale i,vastane
         vshape.setEffect(new Glow(0.8));
         vshape.getStyleClass().add("kera");
