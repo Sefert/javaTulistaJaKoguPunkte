@@ -1,4 +1,5 @@
 import javafx.animation.AnimationTimer;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.effect.Glow;
@@ -50,6 +51,7 @@ public class GameWindow {
     }
     public void spaceShip(){                                                //barjääri ja laeva genereerimine hiire liigutamisel
         Kolmnurk laev = new Kolmnurk();                                     //uue Spaceship klassi defineerimine
+        scene.setCursor(Cursor.NONE);
         pane.setOnMouseMoved(event -> {                                     //hiire liigutuse peale sündmuse esile kutsumine
             pane.getChildren().removeAll(ship);                             //vana leava eemaldamine
             tippx = event.getSceneX();                                      //hiire x koordinaat

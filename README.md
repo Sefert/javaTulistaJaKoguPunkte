@@ -1,5 +1,16 @@
-# Niisiis idee:
-## Projekt by Marko Mõznikov
+# Projekt by Marko Mõznikov
+
+##<b>Juhend mängule</b><br />
+Laev liigub hiirt liigutades<br />
+Tulistada saab parema hiirenupu alt<br />
+Punktisumma on parem üleval ääres<br />
+Iga 5000 punkti tagant muutub laev lillaks ja saab kasutada kaitsekilpi, mis kestab 10 sekundit.<br />
+Iga 60s tagant muutub mäng kiiremaks. Max kiirusaste 6x.<br />
+Vastase pihta ei tohi minna-ainult 1 elu.<br />
+
+
+## Niisiis idee:
+
 Lihtne mugandatud vanaaegne mäng, kus lendad klotisga ringi ja tulistasid teisi vastu lendavaid klotse.<br />
 Kasutaja saab sisestada oma nime ning nimi salvestatakse sqlite anmebaasi.<br />
 Graafika poolele ei pööra üldse mingit tähelepanu. Ainult lendavad kolmnurgad, nelinurgad, ringid jne.<br />
@@ -22,6 +33,8 @@ Klotside poolt antud punktid suurenevad vastavalt kiirusele.<br />
 Liikumine läheb pidevalt kiiremaks, kuni "game over"<br />
 Tulemus salvestatakse andmebaasi nime juurde.<br />
 Tulemusi saab vaadata edetabelist.<br />
+
+## Tehtud toimingud:
 
 /02.10.2016/<br />
 Raamistik ja raami sisu algus.<br />

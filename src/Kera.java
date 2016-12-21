@@ -9,7 +9,7 @@ import javafx.scene.shape.Circle;
 public class Kera {
     Circle circle = new Circle();
     int radius;
-    double centerx, centery, liiguy;
+    double centerx, centery;
     Color color;
     Liigu liigu=new Liigu();
 

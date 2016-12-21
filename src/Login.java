@@ -1,4 +1,5 @@
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -125,6 +126,7 @@ public class Login {
     }
     public void gameOver(){
         loginBox();
+        scene.setCursor(Cursor.DEFAULT);
         Label teade = new Label("Game Over");
         pealkiri = new Label("PROOVI UUESTI!!!");
         pealkiri.setTextFill(Color.WHITE);
