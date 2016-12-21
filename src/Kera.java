@@ -44,6 +44,12 @@ public class Kera {
         circle.setCenterY(liigu.diagonaal(circle.getCenterY())+x);
         return circle;
     }
+    public Node negliiguXY(double x){
+        //if (circle.getCenterX() > 400 && circle.getCenterY() < 100)
+        circle.setCenterX(circle.getCenterX()-x);
+        circle.setCenterY(liigu.ristdiagonaal(circle.getCenterY())-x);
+        return circle;
+    }
     //public double[] liiguXY(double x){
     //    circle.setCenterX(circle.getCenterX()+x);
     //    circle.setCenterY(liigu.diagonaal(circle.getCenterY())+x);

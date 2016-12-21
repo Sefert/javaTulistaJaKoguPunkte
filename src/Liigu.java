@@ -12,6 +12,11 @@ public class Liigu {
         //double y = (a*Math.pow(x,2))-b*x-c;
         return y;
     }
+    public double ristdiagonaal(double x){
+        double y = -x;
+        //double y = (a*Math.pow(x,2))-b*x-c;
+        return y;
+    }
     public double random(){
         double r = Math.random()*100;
         return r;

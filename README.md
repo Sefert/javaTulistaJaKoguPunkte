@@ -58,4 +58,6 @@ Bug - tuvastatud läbi tulistamise visuaalselt, et aegajalt genereeritakse või 
 Bug - mängu FPS drop rate, ilmselt vaja kuidagi arvutada systeemne FPS<br />
 /09.12.2016/<br />
 FPS optimiseerimine/shield punktide muudatus 100-le/max speed vähendatud 2x<br />
+/21.12.2016/<br />
+Toimiv andmebaas/visuaalsus/optimiseeritud vastane<br />
 
