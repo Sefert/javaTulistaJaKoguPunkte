@@ -8,7 +8,7 @@ public class Liigu {
     double b = 4;
     double c = 0;
     public double diagonaal(double x){
-        double y = x+1;
+        double y = x+0.15;
         //double y = (a*Math.pow(x,2))-b*x-c;
         return y;
     }
