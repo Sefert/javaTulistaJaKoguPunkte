@@ -6,6 +6,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,11 +20,11 @@ public class GameWindow {
     Stage stage;
     Pane pane;
     double tippx=400, tippy=500, vastasevaljastamisekiirus =20, kuulikiirus =-8, vastasekiirus=0.3;
-    int vastane1 =0, kuulid =0, vastane2 =0;
+    int vastane1 =0, kuulid =0, vastane2 =0, triger=0,triger2=0;
     String name;
-    Color laevavarv = Color.WHITE;
+    Color laevavarv = Color.WHITE, a=Color.CORAL,b=Color.CORAL,c=Color.AQUAMARINE,d=Color.AQUAMARINE;
     Node kshape, ship, vshape, vshape2, vshape3, bar;
-    boolean tulistamisealghetk =false, lasevastane=true, kiiruseajamuut =true, barjaarialghetk=false, genbarjaar=false;
+    boolean tulistamisealghetk =false, lasevastane=true, kiiruseajamuut =true, barjaarialghetk=false, genbarjaar=false, suunatriger=false;
     Kera circle, kuul, barjaar;
     Random juhus;
     AnimationTimer animationTimer;
@@ -47,7 +48,7 @@ public class GameWindow {
         stage= new Stage();
         stage.setScene(scene);
         stage.setTitle("Shooter - punktisumma on:  " + fullscore);          //punktisumma kuvamine
-        stage.setResizable(false);
+        //stage.setResizable(false);
         stage.show();                                                       //kuva välja
     }
     public void spaceShip(){                                                //barjääri ja laeva genereerimine hiire liigutamisel
@@ -75,12 +76,69 @@ public class GameWindow {
         circle= new Kera();
         Kera circle2= new Kera();
         juhus=new Random();
-        if (vastased.size()%3==0)
-            vshape=circle.kera(juhus.nextInt(600)-300,-50,juhus.nextInt(60)+20,Color.ORCHID,0);
-        else
-            vshape = circle.kera(juhus.nextInt(600)-300,-50,juhus.nextInt(60)+20,Color.CORAL,0);
+        int suund;
+        if (suunatriger){
+            suund=juhus.nextInt(4)+1;
+            System.out.println(suund);
+            switch (suund){
+                case 1:
+                    a=Color.CORAL;
+                    b=Color.CORAL;
+                    c=Color.AQUAMARINE;
+                    d=Color.AQUAMARINE;
+                    break;
+                case 2:
+                    a=Color.ORCHID;
+                    b=Color.ORCHID;
+                    c=Color.DARKGREEN;
+                    d=Color.DARKGREEN;
+                    break;
+                case 3:
+                    a=Color.CORAL;
+                    b=Color.CORAL;
+                    c=Color.DARKGREEN;
+                    d=Color.DARKGREEN;
+                    break;
+                case 4:
+                    a=Color.ORCHID;
+                    b=Color.CORAL;
+                    c=Color.AQUAMARINE;
+                    d=Color.DARKGREEN;
+                    break;
+                default:
+                    break;
+            }
+            suunatriger=false;
+        }
+        if (triger==0) {
+            vshape = circle.kera(juhus.nextInt(600)+100, -50, juhus.nextInt(60) + 20, a, 0);
+            if (b==Color.ORCHID)
+                triger=0;
+            else
+                triger=1;
+        }
+        else {
+            vshape = circle.kera(juhus.nextInt(600) - 300, -50, juhus.nextInt(60) + 20, b, 0);
+            if (a==Color.CORAL)
+                triger=1;
+            else
+                triger=0;
+        }
         vastased.add(i,circle);                                             //vastase lisamine arraysse(kohale i,vastane
-        vshape3 = circle2.kera(juhus.nextInt(700) + 500, -50, juhus.nextInt(60) + 20, Color.AQUAMARINE, 0);
+        if (triger2==0) {
+            vshape3 = circle2.kera(juhus.nextInt(700) + 500, -50, juhus.nextInt(60) + 20, c, 0);
+            if (d==Color.AQUAMARINE)
+                triger2=0;
+            else
+                triger2=1;
+        }
+        else {
+            vshape3 = circle2.kera(900, juhus.nextInt(650)+100, juhus.nextInt(60) + 20, d, 0);
+            if (c==Color.DARKGREEN)
+                triger2=1;
+            else
+                triger2=0;
+        }
         vastased2.add(j,circle2);
         vshape.setEffect(new Glow(0.8));
         vshape3.setEffect(new Glow(0.8));
@@ -145,12 +203,20 @@ public class GameWindow {
                     tulistamisealghetk = false;
                 }
                 for (int i=0;i<vastased.size();i++) {                                //käiakse läbi kõik vastased arrays
-                    vshape = vastased.get(i).liiguXY(vastasekiirus);                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                    if(vastased.get(i).circle.getFill() == Color.ORCHID){
+                        vshape = vastased.get(i).liigutaKuuli(vastasekiirus+1);
+                    } else if (vastased.get(i).circle.getFill() == Color.CORAL) {
+                        vshape = vastased.get(i).liiguXY(vastasekiirus);                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                    }
                     int arrayidentifier=1;
                     kontrolliBarShip(vshape,i,arrayidentifier);
                 }
                 for (int i=0;i<vastased2.size();i++) {                                //käiakse läbi kõik vastased arrays
-                    vshape = vastased2.get(i).negliiguXY(vastasekiirus);                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                     if(vastased2.get(i).circle.getFill() == Color.AQUAMARINE){
+                        vshape = vastased2.get(i).negliiguXY(vastasekiirus);
+                    } else if (vastased2.get(i).circle.getFill() == Color.DARKGREEN) {
+                        vshape = vastased2.get(i).liigumiinusX(vastasekiirus+1);                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                    }
                     int arrayidentifier=2;
                     kontrolliBarShip(vshape,i,arrayidentifier);
                 }
@@ -177,8 +243,9 @@ public class GameWindow {
                 if (Math.round(now / 1_000_000_000)- kiiruseAlgAeg == 30) {         //iga 30 sekundi tagant muudetakse vastase sammu
                     if (vastasekiirus <3) {                                                      //vastase samm ei muutu üle 6 ühiku
                         timeController();                                           //globaalse sammumuutuse esile kutsumine
-                        kiiruseAlgAeg = Math.round(now / 1_000_000_000);            //salvestatakse kiiruse muutmiseks vaja minev algaeg, mille suhtes kiirust muudetakse
                     }
+                    kiiruseAlgAeg = Math.round(now / 1_000_000_000);            //salvestatakse kiiruse muutmiseks vaja minev algaeg, mille suhtes kiirust muudetakse
+                    suunatriger= true;
                 }
             }
         };
@@ -229,6 +296,12 @@ public class GameWindow {
                     barjaarCollision(vshape, i,arrayidentifier);                             //vastase kokkupõrge barjääriga
         } catch (NullPointerException e) {
         }
+        if (arrayidentifier == 2){
+            if (vshape.intersects(-100,-100,40,1000)) {                          //kui kuul põrkub nähtamatu elemntiga vasakul ekraani ääres
+                pane.getChildren().remove(vshape);                          //eemaldatakse kuul
+                removeVastane(i,arrayidentifier);
+            }
+        }
     }
     public void removeVastane(int i,int arrayidentifier){
         if (arrayidentifier == 1) {
@@ -252,10 +325,10 @@ public class GameWindow {
             double ymax = vshape.getBoundsInLocal().getMaxY();
             double ymin = vshape.getBoundsInLocal().getMinY();
             int r = (int) vshape.getBoundsInLocal().getHeight();
-            Color c = circle.color;
             pane.getChildren().removeAll(vshape, kshape);
             valang.remove(j);
             if (arrayidentifier == 1) {
+                Paint c = vastased.get(i).circle.getFill();
                 vastased.set(i, uuscircle);
                 if (c == Color.ORCHID) {
                     vshape2 = uuscircle.kera((xmax - xmin) / 2 + xmin, (ymax - ymin) / 2 + ymin, r / 2 - 20, Color.ORCHID, 0);
@@ -265,9 +338,15 @@ public class GameWindow {
                     vshape2.setEffect(new Glow(0.8));
                 }
             } else if (arrayidentifier == 2){
+                Paint c = vastased2.get(i).circle.getFill();
                 vastased2.set(i, uuscircle);
-                vshape2 = uuscircle.kera((xmax - xmin) / 2 + xmin, (ymax - ymin) / 2 + ymin, r / 2 - 20, Color.AQUAMARINE, 0);
-                vshape2.setEffect(new Glow(0.8));
+                if (c == Color.AQUAMARINE) {
+                    vshape2 = uuscircle.kera((xmax - xmin) / 2 + xmin, (ymax - ymin) / 2 + ymin, r / 2 - 20, Color.AQUAMARINE, 0);
+                    vshape2.setEffect(new Glow(0.8));
+                } else {
+                    vshape2 = uuscircle.kera((xmax - xmin) / 2 + xmin, (ymax - ymin) / 2 + ymin, r / 2 - 20, Color.DARKGREEN, 0);
+                    vshape2.setEffect(new Glow(0.8));
+                }
             }
             pane.getChildren().add(vshape2);
             fullscore = scoreCounter(100);

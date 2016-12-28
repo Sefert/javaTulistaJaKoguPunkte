@@ -74,5 +74,5 @@ FPS optimiseerimine/shield punktide muudatus 100-le/max speed vähendatud 2x<br 
 /21.12.2016/<br />
 Toimiv andmebaas/visuaalsus/optimiseeritud vastane<br />
 /28.12.2016/<br />
-Vähendatud tekkivat spagetti/lisatud 2 vastane<br />
+Vähendatud tekkivat spagetti/lisatud 2 vastane/lisatud liikumismuut<br />
 
