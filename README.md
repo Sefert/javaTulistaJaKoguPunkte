@@ -5,7 +5,7 @@ Laev liigub hiirt liigutades<br />
 Tulistada saab vasaku hiirenupu alt<br />
 Punktisumma on vasakul üleval ääres<br />
 Iga 5000 punkti tagant muutub laev lillaks ja saab kasutada kaitsekilpi, mis kestab 10 sekundit-parema kliki all<br />
-Iga 60s tagant muutub mäng kiiremaks. Max kiirusaste 6x.<br />
+Iga 30s tagant muutub mäng kiiremaks. Max kiirusaste 8x.<br />
 Vastase pihta ei tohi minna-ainult 1 elu.<br />
 
 
@@ -73,4 +73,6 @@ Bug - mängu FPS drop rate, ilmselt vaja kuidagi arvutada systeemne FPS<br />
 FPS optimiseerimine/shield punktide muudatus 100-le/max speed vähendatud 2x<br />
 /21.12.2016/<br />
 Toimiv andmebaas/visuaalsus/optimiseeritud vastane<br />
+/28.12.2016/<br />
+Vähendatud tekkivat spagetti/lisatud 2 vastane<br />
 

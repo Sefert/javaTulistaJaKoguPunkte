@@ -8,6 +8,7 @@ import javafx.scene.shape.Circle;
 
 public class Kera {
     Circle circle = new Circle();
+    Circle circle2 = new Circle();
     int radius;
     double centerx, centery;
     Color color;
@@ -39,25 +40,13 @@ public class Kera {
         return circle;
     }
     public Node liiguXY(double x){
-        //if (circle.getCenterX() > 400 && circle.getCenterY() < 100)
         circle.setCenterX(circle.getCenterX()+x);
         circle.setCenterY(liigu.diagonaal(circle.getCenterY())+x);
         return circle;
     }
     public Node negliiguXY(double x){
-        //if (circle.getCenterX() > 400 && circle.getCenterY() < 100)
         circle.setCenterX(circle.getCenterX()-x);
-        circle.setCenterY(liigu.ristdiagonaal(circle.getCenterY())-x);
+        circle.setCenterY(liigu.diagonaal(circle.getCenterY())+x);
         return circle;
     }
-    //public double[] liiguXY(double x){
-    //    circle.setCenterX(circle.getCenterX()+x);
-    //    circle.setCenterY(liigu.diagonaal(circle.getCenterY())+x);
-    //   return new double[]{circle.getCenterX(),circle.getCenterY()};
-    //}
-    //public double[] liiguXY(double x){
-      //  circle.setCenterX(circle.getCenterX()+x);
-        //circle.setCenterY(liigu.parapool(circle.getCenterX()));
-       //return new double[]{circle.getCenterX(),circle.getCenterY()};
-    //}
 }

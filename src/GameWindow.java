@@ -18,13 +18,13 @@ public class GameWindow {
     Scene scene;
     Stage stage;
     Pane pane;
-    double tippx=400, tippy=500,p=10,f=-1.5;
-    int a=0, b=0, c=1;
+    double tippx=400, tippy=500, vastasevaljastamisekiirus =20, kuulikiirus =-8, vastasekiirus=0.3;
+    int vastane1 =0, kuulid =0, vastane2 =0;
     String name;
     Color laevavarv = Color.WHITE;
-    Node shape, ship, vshape, vshape2, bar;
-    boolean tulistamisealghetk =false, liiguvastane =false, lasevastane=true, kiiruseajamuut =true, barjaarialghetk=false, genbarjaar=false;
-    Kera circle, kuul;
+    Node kshape, ship, vshape, vshape2, vshape3, bar;
+    boolean tulistamisealghetk =false, lasevastane=true, kiiruseajamuut =true, barjaarialghetk=false, genbarjaar=false;
+    Kera circle, kuul, barjaar;
     Random juhus;
     AnimationTimer animationTimer;
     int score=0, fullscore=0;
@@ -61,52 +61,36 @@ public class GameWindow {
             pane.getChildren().add(ship);                                   //laeva kuvamine
             ship.setEffect(new Glow(0.3));
             if (genbarjaar){                                                //barjääri olemasolu kontroll
-                Kera barjaar=new Kera();                                    //barjääri ringina defineerimine
                 try {
                     pane.getChildren().removeAll(bar);                      //barjääri eemaldamine
                 } catch (NullPointerException e){                           //püütakse kinni, kui pole barjääri, mida eemmaldada
 
                 }
-                bar=barjaar.kera(tippx, tippy, 100, Color.GOLD,15);         //barjäär(xkoord,ykoord,raadius,värvus,välisjoone paksus)
-                bar.setEffect(new Glow(1));
-                pane.getChildren().add(bar);                                //lisa barjäär
+                genBar();
             }
         });
 
     }
-    public void valjastaVastane(int i){                                     //vastase lisamine arraysse
+    public void valjastaVastane(int i, int j){                                     //vastase lisamine arraysse
         circle= new Kera();
+        Kera circle2= new Kera();
         juhus=new Random();
         if (vastased.size()%3==0)
-            vshape=circle.kera(juhus.nextInt(1050)-650,-50,juhus.nextInt(60)+20,Color.ORCHID,0);
+            vshape=circle.kera(juhus.nextInt(600)-300,-50,juhus.nextInt(60)+20,Color.ORCHID,0);
         else
-            vshape = circle.kera(juhus.nextInt(1050)-650,-50,juhus.nextInt(60)+20,Color.CORAL,0);
+            vshape = circle.kera(juhus.nextInt(600)-300,-50,juhus.nextInt(60)+20,Color.CORAL,0);
         vastased.add(i,circle);                                             //vastase lisamine arraysse(kohale i,vastane
+        vshape3 = circle2.kera(juhus.nextInt(700) + 500, -50, juhus.nextInt(60) + 20, Color.AQUAMARINE, 0);
+        vastased2.add(j,circle2);
         vshape.setEffect(new Glow(0.8));
-        vshape.getStyleClass().add("kera");
-        pane.getChildren().add(vshape);                                     //vastase lisamine ekraanile
-        liiguvastane = true;                                                //vastase liigutamine muudetakse tõeseks
-    }
-    public void genvastane2(){
-        juhus=new Random();
-        for (int i=0;i<juhus.nextInt(20)+1;i++){
-            circle= new Kera();
-            vastased2.add(i,circle);
-        }
-    }
-    public void valjastaVastane2(){
-        juhus=new Random();
-        for (int i=0;i<juhus.nextInt(20)+1;i++){
-            vshape=circle.kera(juhus.nextInt(800)+500,-50,juhus.nextInt(60)+20,Color.ORCHID,0);
-        }
-        pane.getChildren().add(vshape);
-        liiguvastane = true;
+        vshape3.setEffect(new Glow(0.8));
+        pane.getChildren().addAll(vshape,vshape3);
     }
     public void timeController(){                                           //erinevate liikumissammude muut
-        c++;                                                                //vasatse liikumise sammu suurendamine
-        System.out.println("Kiirus on "+ c);
-        f-=0.5;                                                             //kuuli kiiruse muut
-        System.out.println("Kuuli kiirus on "+ f);
+        vastasekiirus += 0.3;                                                                //vasatse liikumise sammu suurendamine
+        System.out.println("Kiirus on "+ vastasekiirus);
+        kuulikiirus -= 0.7;                                                             //kuuli kiiruse muut
+        System.out.println("Kuuli kiirus on "+ kuulikiirus);
     }
     private void startGame(){                                               //erinevate aegade registreerimine ja objektide liigutamine ajas
         animationTimer = new AnimationTimer(){
@@ -120,6 +104,7 @@ public class GameWindow {
                 if (barjaarialghetk) {
                     barjaariAlgAeg = Math.round(now / 1_000_000_000);       //barjääri alghetke salvestamine
                     genbarjaar=true;
+                    genBar();
                     barjaarialghetk =false;
                 }
                 if (Math.round(now/1_000_000_000)-barjaariAlgAeg==10){      //10 sekundi möödudes eemaldatakse barjäär
@@ -131,67 +116,71 @@ public class GameWindow {
                     laevavarv=Color.BLUEVIOLET;
                 }
                 if (lasevastane){                                           //kui tõene väljastatakse vastane
-                    valjastaVastane(a);                                     //vastane väljastatakse
+                    valjastaVastane(vastane1, vastane2);                                     //vastane väljastatakse
                     vastaseAlgAeg =Math.round(now / 100_000_000);           //salvestatakse vastase algaeg
-                    a++;                                                    //suurendatakse juba järgmist vastase salvestamise positsiooni arrays
+                    vastane1++;                                                    //suurendatakse juba järgmist vastase salvestamise positsiooni arrays
+                    vastane2++;
                     lasevastane=false;                                      //vastase väljastamine lõpetatakse pidevalt jooksvas tsükklis
                 }
-                if (c<3) {                                                      //kui vastase samm on
-                    if (Math.round(now / 100_000_000) - vastaseAlgAeg == p) {   //kontrollitakse, kas praeguse aja ja algusaja vahe on 1 sekund
+                if (vastasekiirus <1) {                                                      //kui vastase samm on
+                    if (Math.round(now / 100_000_000) - vastaseAlgAeg == vastasevaljastamisekiirus) {   //kontrollitakse, kas praeguse aja ja algusaja vahe on 1 sekund
                         lasevastane = true;                                     //tähendab, et iga 1 sekundi järel väljastatkse vastane
                     }
-                } else if (c==3 || c==4){
-                    if (Math.round(now / 100_000_000)- vastaseAlgAeg == 8 || Math.round(now / 100_000_000)- vastaseAlgAeg == 7){
+                } else if (vastasekiirus >=1 && vastasekiirus <=2){
+                    if (Math.round(now / 100_000_000)- vastaseAlgAeg == 15 || Math.round(now / 100_000_000)- vastaseAlgAeg == 14){
                         lasevastane=true;
-                    } else if (Math.round(now / 100_000_000) - vastaseAlgAeg == p) {
+                    } else if (Math.round(now / 100_000_000) - vastaseAlgAeg == vastasevaljastamisekiirus) {
                         lasevastane = true;
                     }
-                } else if (c>4){
-                   if (Math.round(now / 100_000_000)- vastaseAlgAeg == 6 || Math.round(now / 100_000_000)- vastaseAlgAeg == 5){
+                } else if (vastasekiirus >2){
+                   if (Math.round(now / 100_000_000)- vastaseAlgAeg == 10 || Math.round(now / 100_000_000)- vastaseAlgAeg == 9){
                         lasevastane=true;
-                    }else if (Math.round(now / 100_000_000) - vastaseAlgAeg == p) {
+                    }else if (Math.round(now / 100_000_000) - vastaseAlgAeg == vastasevaljastamisekiirus) {
                         lasevastane = true;
                     }
                 }
                 if (tulistamisealghetk){
-                    tulista(b);                                                         //kui tõene kutsutakse esile tulistamine arrays kohal b
-                    b++;
+                    tulista(kuulid);                                                         //kui tõene kutsutakse esile tulistamine arrays kohal kuulid
+                    kuulid++;
                     tulistamisealghetk = false;
                 }
-                //if (liiguvastane){                                                      //kui vastane eksisteerib pildil
-                    if (Math.round(now / 1_000_000_000)- kiiruseAlgAeg == 30) {         //iga 30 sekundi tagant muudetakse vastase sammu
-                        if (c<6) {                                                      //vastase samm ei muutu üle 6 ühiku
-                            timeController();                                           //globaalse sammumuutuse esile kutsumine
-                            kiiruseAlgAeg = Math.round(now / 1_000_000_000);            //salvestatakse kiiruse muutmiseks vaja minev algaeg, mille suhtes kiirust muudetakse
+                for (int i=0;i<vastased.size();i++) {                                //käiakse läbi kõik vastased arrays
+                    vshape = vastased.get(i).liiguXY(vastasekiirus);                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                    int arrayidentifier=1;
+                    kontrolliBarShip(vshape,i,arrayidentifier);
+                }
+                for (int i=0;i<vastased2.size();i++) {                                //käiakse läbi kõik vastased arrays
+                    vshape = vastased2.get(i).negliiguXY(vastasekiirus);                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                    int arrayidentifier=2;
+                    kontrolliBarShip(vshape,i,arrayidentifier);
+                }
+
+                if (valang.size() > 0) {                                            //kui eksisteerib tulistamine
+                    for (int j = 0; j < valang.size(); j++) {                          //käiakse läbi kõik kuulid arrays
+                        kshape = valang.get(j).liigutaKuuli(kuulikiirus);                    //kera liikumise esile kutsumine
+                        if (kshape.intersects(0, -20, 800, 5)) {                     //kuuli kontroll kujutletava piiriga allpool nähtavat ekraani
+                            valang.remove(j);                                   //sellisel juhul kuuli eemladamine
+                            kuulid--;                                                //array suuruse vähendamine 1 võõra, mida kontrollitakse loobis
                         }
                     }
-                    for (int i=0;i<vastased.size();i++){                                //käiakse läbi kõik vastased arrays
-                        vshape = vastased.get(i).liiguXY(c);                            //kutsutakse välja vastase liikumine vastava kujundi klassis
-                        if (valang.size()>0)                                            //kui eksisteerib tulistamine
-                            for(int j=0;j<valang.size();j++) {                          //käiakse läbi kõik kuulid arrays
-                                shape=valang.get(j).liigutaKuuli(f);                    //kera liikumise esile kutsumine
-                                pulletCollision(vshape,shape,i,j);                      //kuuli kokkupõrkekontroll
-                                if (shape.intersects(0,-10,800,5)){                     //kuuli kontroll kujutletava piiriga allpool nähtavat ekraani
-                                    valang.remove(j);                                   //sellisel juhul kuuli eemladamine
-                                    b--;                                                //array suuruse vähendamine 1 võõra, mida kontrollitakse loobis
-                                }
-                            }
-                        if (vshape.intersects(0,810,3000,5)) {                          //kui kuul põrkub nähtamatu elemntiga üleval ekraani ääres
-                            pane.getChildren().remove(vshape);                          //eemaldatakse kuul
-                            a--;
-                            vastased.remove(i);
-                            System.out.println(vastased.size());
-                        }
-                        try {
-                            shipCollision(vshape);                                      //kosmoslaeva kokkupõrke kontroll vaastasega
-                            if (genbarjaar)
-                                barjaarCollision(vshape,i);                             //vastase kokkupõrge barjääriga
-                        }catch (NullPointerException e){                                //püütakse kinni viga, kus laev ,vastane või barjäär on null
-                            //System.out.println("error Nullpointer püütud");
-                        }
+                    for (int i = 0; i < vastased.size(); i++) {                                //käiakse läbi kõik vastased arrays
+                        vshape = vastased.get(i).circle;                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                        int arrayidentifier=1;
+                        kontrolliKuuli(vshape, i, arrayidentifier);
+                    }
+                    for (int i = 0; i < vastased2.size(); i++) {                                //käiakse läbi kõik vastased arrays
+                        vshape = vastased2.get(i).circle;                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                        int arrayidentifier=2;
+                        kontrolliKuuli(vshape, i, arrayidentifier);
                     }
                 }
-            //}
+                if (Math.round(now / 1_000_000_000)- kiiruseAlgAeg == 30) {         //iga 30 sekundi tagant muudetakse vastase sammu
+                    if (vastasekiirus <3) {                                                      //vastase samm ei muutu üle 6 ühiku
+                        timeController();                                           //globaalse sammumuutuse esile kutsumine
+                        kiiruseAlgAeg = Math.round(now / 1_000_000_000);            //salvestatakse kiiruse muutmiseks vaja minev algaeg, mille suhtes kiirust muudetakse
+                    }
+                }
+            }
         };
         animationTimer.start();                                                         //käivitatakse ajaliselt jooksev süsteem
     }
@@ -208,75 +197,108 @@ public class GameWindow {
             }
         });
     }
+    public void  genBar(){
+        barjaar=new Kera();
+        bar=barjaar.kera(tippx, tippy, 100, Color.GOLD,15);         //barjäär(xkoord,ykoord,raadius,värvus,välisjoone paksus)
+        bar.setEffect(new Glow(1));
+        pane.getChildren().add(bar);                                //lisa barjäär
+    }
     public void tulista(int b){
         kuul = new Kera();                                                              //uue kera tüüpi elemendi defineerimine
-        shape = kuul.kera(tippx,tippy,3,Color.ALICEBLUE,0);                             //kuuli genereerimine
+        kshape = kuul.kera(tippx,tippy,3,Color.ALICEBLUE,0);                             //kuuli genereerimine
         valang.add(b,kuul);
-        pane.getChildren().add(shape);                                                  //kuuli kuvamine
+        pane.getChildren().add(kshape);                                                  //kuuli kuvamine
+    }
+    public void kontrolliKuuli(Node vshape, int i,int arrayidentifier){
+        for (int j = 0; j < valang.size(); j++) {                          //käiakse läbi kõik kuulid arrays
+            kshape = valang.get(j).circle;                    //kera liikumise esile kutsumine
+            if (vshape.getBoundsInLocal().intersects(kshape.getBoundsInLocal()))
+                pulletCollision(vshape, kshape, i,j, arrayidentifier);
+        }
+    }
+    public void kontrolliBarShip(Node vshape,int i, int arrayidentifier){
+        if (vshape.intersects(-2000,900,5000,40)) {                          //kui kuul põrkub nähtamatu elemntiga üleval ekraani ääres
+            pane.getChildren().remove(vshape);                          //eemaldatakse kuul
+            removeVastane(i,arrayidentifier);
+        }
+        try {
+            if (ship.getBoundsInLocal().intersects(vshape.getBoundsInLocal()))
+                shipCollision(vshape);                                      //kosmoslaeva kokkupõrke kontroll vaastasega
+            if (genbarjaar)
+                if (bar.getBoundsInLocal().intersects(vshape.getBoundsInLocal()))
+                    barjaarCollision(vshape, i,arrayidentifier);                             //vastase kokkupõrge barjääriga
+        } catch (NullPointerException e) {
+        }
+    }
+    public void removeVastane(int i,int arrayidentifier){
+        if (arrayidentifier == 1) {
+            vastased.remove(i);
+            vastane1--;
+        }
+        if (arrayidentifier == 2){
+            vastased2.remove(i);
+            vastane2--;
+        }
     }
     public int scoreCounter(int b){
         score += b;                                                                     //loendab punkte  võrra suurendades
         return score;                                                                   //tagastab punktide väärtuse
     }
-    public void pulletCollision(Node vshape, Node shape, int i, int j){                 //kuuli kokkupõrge vastasega
-        if (vshape.getBoundsInLocal().intersects(shape.getBoundsInLocal())){
-            if (vshape.getBoundsInLocal().getHeight()>70){                              //kui vastase kõrgus on suurem kui 70
-                Kera uuscircle=new Kera();                                              //tehakse uus vastane ja aesetatakse väiksemana järgnevalt fikseeritud positsioonile
-                double xmax = vshape.getBoundsInLocal().getMaxX();
-                double xmin = vshape.getBoundsInLocal().getMinX();
-                double ymax = vshape.getBoundsInLocal().getMaxY();
-                double ymin = vshape.getBoundsInLocal().getMinY();
-                int r = (int)vshape.getBoundsInLocal().getHeight();
-                Color c = circle.color;
-                pane.getChildren().removeAll(vshape,shape);
-                valang.remove(j);
-                vastased.set(i,uuscircle);
-                if (c==Color.ORCHID) {
+    public void pulletCollision(Node vshape, Node kshape, int i,int j, int arrayidentifier){                 //kuuli kokkupõrge vastasega
+        if (vshape.getBoundsInLocal().getHeight()>70) {                              //kui vastase kõrgus on suurem kui 70
+            Kera uuscircle = new Kera();                                              //tehakse uus vastane ja aesetatakse väiksemana järgnevalt fikseeritud positsioonile
+            double xmax = vshape.getBoundsInLocal().getMaxX();
+            double xmin = vshape.getBoundsInLocal().getMinX();
+            double ymax = vshape.getBoundsInLocal().getMaxY();
+            double ymin = vshape.getBoundsInLocal().getMinY();
+            int r = (int) vshape.getBoundsInLocal().getHeight();
+            Color c = circle.color;
+            pane.getChildren().removeAll(vshape, kshape);
+            valang.remove(j);
+            if (arrayidentifier == 1) {
+                vastased.set(i, uuscircle);
+                if (c == Color.ORCHID) {
                     vshape2 = uuscircle.kera((xmax - xmin) / 2 + xmin, (ymax - ymin) / 2 + ymin, r / 2 - 20, Color.ORCHID, 0);
                     vshape2.setEffect(new Glow(0.8));
-                }
-                else {
+                } else {
                     vshape2 = uuscircle.kera((xmax - xmin) / 2 + xmin, (ymax - ymin) / 2 + ymin, r / 2 - 20, Color.CORAL, 0);
                     vshape2.setEffect(new Glow(0.8));
                 }
-                pane.getChildren().add(vshape2);
-                fullscore = scoreCounter(100);
-                stage.setTitle("Shooter - punktisumma on:  " + fullscore);
-                b--;
-                System.out.println(vastased.size());
-            } else {
-                vastased.remove(i);
-                System.out.println(vastased.size());
-                valang.remove(j);
-                valang.removeIf(Objects::isNull);
-                vastased.removeIf(Objects::isNull);
-                pane.getChildren().removeAll(vshape, shape);
-                fullscore = scoreCounter(100);
-                stage.setTitle("Shooter - punktisumma on:  " + fullscore);
-                b--;
-                a--;
+            } else if (arrayidentifier == 2){
+                vastased2.set(i, uuscircle);
+                vshape2 = uuscircle.kera((xmax - xmin) / 2 + xmin, (ymax - ymin) / 2 + ymin, r / 2 - 20, Color.AQUAMARINE, 0);
+                vshape2.setEffect(new Glow(0.8));
             }
+            pane.getChildren().add(vshape2);
+            fullscore = scoreCounter(100);
+            stage.setTitle("Shooter - punktisumma on:  " + fullscore);
+            kuulid--;
+        } else {
+            valang.remove(j);
+            valang.removeIf(Objects::isNull);
+            vastased.removeIf(Objects::isNull);
+            vastased2.removeIf(Objects::isNull);
+            pane.getChildren().removeAll(vshape, kshape);
+            fullscore = scoreCounter(100);
+            stage.setTitle("Shooter - punktisumma on:  " + fullscore);
+            removeVastane(i,arrayidentifier);
+            kuulid--;
         }
     }
     public void shipCollision(Node vshape){                                     //laeva kokkupõrge vastasega
-        if (ship.getBoundsInLocal().intersects(vshape.getBoundsInLocal())) {
-            pane.getChildren().removeAll(vshape, ship, shape);
-            stage.close();
-            animationTimer.stop();
-            SQLiteAndmed baas=new SQLiteAndmed();
-            baas.uhenda();
-            baas.lisaKasutaja(name, fullscore);
-            Login login=new Login();
-            login.gameOver();
-        }
+        pane.getChildren().removeAll(vshape, ship, kshape);
+        stage.close();
+        animationTimer.stop();
+        SQLiteAndmed baas=new SQLiteAndmed();
+        baas.uhenda();
+        baas.lisaKasutaja(name, fullscore);
+        Login login=new Login();
+        login.gameOver();
     }
-    public  void barjaarCollision(Node vshape, int i){                          //barjääri kokkupõrge vastasega
-        if (bar.getBoundsInLocal().intersects(vshape.getBoundsInLocal())){
-            pane.getChildren().remove(vshape);
-            vastased.remove(i);
-            fullscore = scoreCounter(100);
-            stage.setTitle("Shooter - punktisumma on:  " + fullscore);
-            a--;
-        }
+    public  void barjaarCollision(Node vshape, int i,int arrayidentifier){                          //barjääri kokkupõrge vastasega
+        pane.getChildren().remove(vshape);
+        fullscore = scoreCounter(100);
+        stage.setTitle("Shooter - punktisumma on:  " + fullscore);
+        removeVastane(i,arrayidentifier);
     }
 }
