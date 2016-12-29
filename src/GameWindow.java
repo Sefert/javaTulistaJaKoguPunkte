@@ -48,7 +48,7 @@ public class GameWindow {
         stage= new Stage();
         stage.setScene(scene);
         stage.setTitle("Shooter - punktisumma on:  " + fullscore);          //punktisumma kuvamine
-        //stage.setResizable(false);
+        stage.setResizable(false);
         stage.show();                                                       //kuva välja
     }
     public void spaceShip(){                                                //barjääri ja laeva genereerimine hiire liigutamisel
