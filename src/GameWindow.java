@@ -5,9 +5,14 @@ import javafx.scene.Scene;
 import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -33,8 +38,16 @@ public class GameWindow {
     ArrayList<Kera> valang= new ArrayList();
     ArrayList<Kera> vastased= new ArrayList();
     ArrayList<Kera> vastased2= new ArrayList();
+    String ssound = "src/sound/Steamtech-Mayhem.mp3";
+    MediaPlayer mediaPlayer;
+    File file = new File("src/button.css");
+    String fileURI = file.toURI().toString();
 
     public GameWindow(String nimi){
+        Media sound = new Media(new File(ssound).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
         gameWindow();                                                       //mänguakna esile toomine
         spaceShip();                                                        //kosmoslaeva genereerimine ja kustutamine
         startGame();                                                        //animationtimeri käivitamine
@@ -44,7 +57,9 @@ public class GameWindow {
     public void gameWindow(){
         pane = new Pane();                                                  //pane väljatüüp
         pane.setStyle("-fx-background-color: transparent;");
-        scene= new Scene(pane,800,800,Color.BLACK);                         //mõõtudega 800px X 800px
+        pane.getStyleClass().add("pane");
+        scene= new Scene(pane,800,800);                         //mõõtudega 800px X 800px
+        scene.getStylesheets().add(fileURI);
         stage= new Stage();
         stage.setScene(scene);
         stage.setTitle("Shooter - punktisumma on:  " + fullscore);          //punktisumma kuvamine
@@ -255,11 +270,14 @@ public class GameWindow {
         pane.setOnMousePressed(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {                             //premkliki defineerimine
                 tulistamisealghetk =true;
+                String tsound = "src/sound/Space-Cannon.mp3";
+                player(tsound);
             }
             if (event.getButton() == MouseButton.SECONDARY) {
                 if (laevavarv == Color.BLUEVIOLET) {
                     barjaarialghetk = true;
                     laevavarv = Color.WHITE;
+
                 }
             }
         });
@@ -353,6 +371,8 @@ public class GameWindow {
             stage.setTitle("Shooter - punktisumma on:  " + fullscore);
             kuulid--;
         } else {
+            String psound = "src/sound/Explosion2.mp3";
+            player(psound);
             valang.remove(j);
             valang.removeIf(Objects::isNull);
             vastased.removeIf(Objects::isNull);
@@ -365,6 +385,8 @@ public class GameWindow {
         }
     }
     public void shipCollision(Node vshape){                                     //laeva kokkupõrge vastasega
+        String csound = "src/sound/Hull-Breach.mp3";
+        player(csound);
         pane.getChildren().removeAll(vshape, ship, kshape);
         stage.close();
         animationTimer.stop();
@@ -372,6 +394,7 @@ public class GameWindow {
         baas.uhenda();
         baas.lisaKasutaja(name, fullscore);
         Login login=new Login();
+        mediaPlayer.stop();
         login.gameOver();
     }
     public  void barjaarCollision(Node vshape, int i,int arrayidentifier){                          //barjääri kokkupõrge vastasega
@@ -379,5 +402,11 @@ public class GameWindow {
         fullscore = scoreCounter(100);
         stage.setTitle("Shooter - punktisumma on:  " + fullscore);
         removeVastane(i,arrayidentifier);
+    }
+    public  void  player(String heli){
+        Media sound = new Media(new File(heli).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(0.1);
+        mediaPlayer.play();
     }
 }

@@ -1,3 +1,4 @@
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -5,6 +6,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -24,6 +27,8 @@ public class Login {
     Button sisesta, edetabel;
     SQLiteAndmed baas=new SQLiteAndmed();
     TableView table;
+    String ssound = "src/sound/Sci-Fi-Open_Looping.mp3";
+    MediaPlayer mediaPlayer;
     File f = new File("src/button.css");
     String fileURI = f.toURI().toString();
 
@@ -33,24 +38,31 @@ public class Login {
     }
 
     public void teeAken(){
+        Media sound = new Media(new File(ssound).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
+
         borderPane = new BorderPane();
         borderPane.setStyle("-fx-background-color: transparent;");
-        scene = new Scene(borderPane, 800, 800,Color.AZURE);
+        borderPane.getStyleClass().add("borderPane");
+        scene = new Scene(borderPane, 800, 800);
         scene.getStylesheets().clear();
         scene.getStylesheets().add(fileURI);
         stage = new Stage();
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.setTitle("Lisa oma nimi highScore edetabeli jaoks!!!");
         stage.show();
     }
     public void loginBox(){
 
         login=new VBox();
-        login.setSpacing(5);
-        login.setAlignment(Pos.CENTER);
+        login.setSpacing(10);
+        login.setPadding(new Insets(0, 0, 0, 400));
+        login.setAlignment(Pos.CENTER_LEFT);
 
-        pealkiri = new Label("WHO are YOU?");
-        pealkiri.setFont(Font.font("Arial", 26));
+        pealkiri = new Label("Enter your Name");
         pealkiri.getStyleClass().add("kiri");
 
         nameField = new TextField();
@@ -92,6 +104,7 @@ public class Login {
         else {
             System.out.println(nimi);
             stage.close();
+            mediaPlayer.stop();
             new GameWindow(nimi);
         }
     }
@@ -128,11 +141,13 @@ public class Login {
         loginBox();
         scene.setCursor(Cursor.DEFAULT);
         Label teade = new Label("Game Over");
-        pealkiri = new Label("PROOVI UUESTI!!!");
-        pealkiri.setTextFill(Color.WHITE);
-        scene.setFill(Color.BLACK);
+        Label soundlicence = new Label("Music (and/or Sound Effects) by Eric Matyas\n" +
+                "www.soundimage.org");
+        Label projektlicence = new Label("Projekt by Marko Mõznikov");
+        projektlicence.setTextFill(Color.WHITE);
+        soundlicence.setTextFill(Color.WHITE);
         teade.setTextFill(Color.WHITE);
-        teade.setFont(Font.font("Arial", 100));
-        login.getChildren().add(teade);
+        teade.setFont(Font.font("Arial", 50));
+        login.getChildren().addAll(teade,projektlicence,soundlicence);
     }
 }

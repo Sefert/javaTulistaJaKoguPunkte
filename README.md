@@ -8,6 +8,9 @@ Iga 5000 punkti tagant muutub laev lillaks ja saab kasutada kaitsekilpi, mis kes
 Iga 30s tagant muutub mäng kiiremaks. Max kiirusaste 8x.<br />
 Vastase pihta ei tohi minna-ainult 1 elu.<br />
 
+Music (and/or Sound Effects) by Eric Matyas
+
+www.soundimage.org
 
 ## Niisiis idee:
 
@@ -75,4 +78,6 @@ FPS optimiseerimine/shield punktide muudatus 100-le/max speed vähendatud 2x<br 
 Toimiv andmebaas/visuaalsus/optimiseeritud vastane<br />
 /28.12.2016/<br />
 Vähendatud tekkivat spagetti/lisatud 2 vastane/lisatud liikumismuut<br />
+/29.12.2016/<br />
+Lisatud sound/pildid<br />
 
