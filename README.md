@@ -80,4 +80,5 @@ Toimiv andmebaas/visuaalsus/optimiseeritud vastane<br />
 Vähendatud tekkivat spagetti/lisatud 2 vastane/lisatud liikumismuut<br />
 /29.12.2016/<br />
 Lisatud sound/pildid<br />
-
+/01.01.2017/<br />
+Väike failsafe<br />

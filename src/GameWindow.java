@@ -198,19 +198,27 @@ public class GameWindow {
                 if (vastasekiirus <1) {                                                      //kui vastase samm on
                     if (Math.round(now / 100_000_000) - vastaseAlgAeg == vastasevaljastamisekiirus) {   //kontrollitakse, kas praeguse aja ja algusaja vahe on 1 sekund
                         lasevastane = true;                                     //tähendab, et iga 1 sekundi järel väljastatkse vastane
+                    }else if (vastased.size()==0 || vastased2.size()==0){
+                        lasevastane = true;
                     }
                 } else if (vastasekiirus >=1 && vastasekiirus <=2){
                     if (Math.round(now / 100_000_000)- vastaseAlgAeg == 15 || Math.round(now / 100_000_000)- vastaseAlgAeg == 14){
                         lasevastane=true;
                     } else if (Math.round(now / 100_000_000) - vastaseAlgAeg == vastasevaljastamisekiirus) {
                         lasevastane = true;
+                    } else if (vastased.size()==0 || vastased2.size()==0){
+                        lasevastane = true;
                     }
+
                 } else if (vastasekiirus >2){
                    if (Math.round(now / 100_000_000)- vastaseAlgAeg == 10 || Math.round(now / 100_000_000)- vastaseAlgAeg == 9){
                         lasevastane=true;
                     }else if (Math.round(now / 100_000_000) - vastaseAlgAeg == vastasevaljastamisekiirus) {
                         lasevastane = true;
                     }
+                   else if (vastased.size()==0 || vastased2.size()==0){
+                       lasevastane = true;
+                   }
                 }
                 if (tulistamisealghetk){
                     tulista(kuulid);                                                         //kui tõene kutsutakse esile tulistamine arrays kohal kuulid
