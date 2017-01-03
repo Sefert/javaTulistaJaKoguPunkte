@@ -169,9 +169,13 @@ public class Login {
         login.getChildren().addAll(teade,projektlicence,soundlicence);
     }
     public void mplayer(){
-        Media sound = new Media(new File(ssound).toURI().toString());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
+        try {
+            Media sound = new Media(new File(ssound).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+        }catch (Exception e){
+            System.out.println("Linuks vist mussi niisama ei toeta");
+        }
     }
 }

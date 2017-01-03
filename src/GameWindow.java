@@ -46,10 +46,14 @@ public class GameWindow {
 
     public GameWindow(String nimi, boolean mute){
         if (mute) {
-            Media sound = new Media(new File(ssound).toURI().toString());
-            mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.play();
+            try {
+                Media sound = new Media(new File(ssound).toURI().toString());
+                mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                mediaPlayer.play();
+            } catch (Exception e){
+                System.out.println("Mingi jama playeriga");
+            }
         }
         gameWindow();                                                       //mänguakna esile toomine
         spaceShip();                                                        //kosmoslaeva genereerimine ja kustutamine
@@ -417,10 +421,14 @@ public class GameWindow {
     }
     public  void  player(String heli){
         if (mutesound) {
-            Media sound = new Media(new File(heli).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setVolume(0.1);
-            mediaPlayer.play();
+            try {
+                Media sound = new Media(new File(heli).toURI().toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.setVolume(0.1);
+                mediaPlayer.play();
+            } catch (Exception e) {
+                System.out.println("Mingi jama playeriga");
+            }
         }
     }
 }
