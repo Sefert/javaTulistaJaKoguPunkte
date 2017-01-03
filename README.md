@@ -82,3 +82,5 @@ Vähendatud tekkivat spagetti/lisatud 2 vastane/lisatud liikumismuut<br />
 Lisatud sound/pildid<br />
 /01.01.2017/<br />
 Väike failsafe<br />
+/03.01.2017/<br />
+Mute helile<br />

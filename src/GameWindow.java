@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -29,7 +30,7 @@ public class GameWindow {
     String name;
     Color laevavarv = Color.WHITE, a=Color.CORAL,b=Color.CORAL,c=Color.AQUAMARINE,d=Color.AQUAMARINE;
     Node kshape, ship, vshape, vshape2, vshape3, bar;
-    boolean tulistamisealghetk =false, lasevastane=true, kiiruseajamuut =true, barjaarialghetk=false, genbarjaar=false, suunatriger=false;
+    boolean tulistamisealghetk =false, lasevastane=true, kiiruseajamuut =true, barjaarialghetk=false, genbarjaar=false, suunatriger=false, mutesound;
     Kera circle, kuul, barjaar;
     Random juhus;
     AnimationTimer animationTimer;
@@ -43,16 +44,19 @@ public class GameWindow {
     File file = new File("src/button.css");
     String fileURI = file.toURI().toString();
 
-    public GameWindow(String nimi){
-        Media sound = new Media(new File(ssound).toURI().toString());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
+    public GameWindow(String nimi, boolean mute){
+        if (mute) {
+            Media sound = new Media(new File(ssound).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+        }
         gameWindow();                                                       //mänguakna esile toomine
         spaceShip();                                                        //kosmoslaeva genereerimine ja kustutamine
         startGame();                                                        //animationtimeri käivitamine
         mousePressed();                                                     //kuuli genereerimine
         name=nimi;
+        mutesound=mute;
     }
     public void gameWindow(){
         pane = new Pane();                                                  //pane väljatüüp
@@ -401,7 +405,7 @@ public class GameWindow {
         SQLiteAndmed baas=new SQLiteAndmed();
         baas.uhenda();
         baas.lisaKasutaja(name, fullscore);
-        Login login=new Login();
+        Login login=new Login(mutesound);
         mediaPlayer.stop();
         login.gameOver();
     }
@@ -412,9 +416,11 @@ public class GameWindow {
         removeVastane(i,arrayidentifier);
     }
     public  void  player(String heli){
-        Media sound = new Media(new File(heli).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(0.1);
-        mediaPlayer.play();
+        if (mutesound) {
+            Media sound = new Media(new File(heli).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.1);
+            mediaPlayer.play();
+        }
     }
 }

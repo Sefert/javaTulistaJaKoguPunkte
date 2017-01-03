@@ -10,6 +10,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        new Login(); //loginakna esile kutsumine
+        new Login(true); //loginakna esile kutsumine
     }
 }

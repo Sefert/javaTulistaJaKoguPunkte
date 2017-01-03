@@ -24,7 +24,8 @@ public class Login {
     Stage stage;
     Label pealkiri, markus;
     TextField nameField;
-    Button sisesta, edetabel;
+    Button sisesta, edetabel, mutebutton;
+    Boolean mute;
     SQLiteAndmed baas=new SQLiteAndmed();
     TableView table;
     String ssound = "src/sound/Sci-Fi-Open_Looping.mp3";
@@ -32,17 +33,16 @@ public class Login {
     File f = new File("src/button.css");
     String fileURI = f.toURI().toString();
 
-    public Login(){
+    public Login(boolean mutesound){
+        mute=mutesound;
         teeAken();
         loginBox();
     }
 
     public void teeAken(){
-        Media sound = new Media(new File(ssound).toURI().toString());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
-
+        if (mute) {
+            mplayer();
+        }
         borderPane = new BorderPane();
         borderPane.setStyle("-fx-background-color: transparent;");
         borderPane.getStyleClass().add("borderPane");
@@ -56,7 +56,6 @@ public class Login {
         stage.show();
     }
     public void loginBox(){
-
         login=new VBox();
         login.setSpacing(10);
         login.setPadding(new Insets(0, 0, 0, 400));
@@ -78,7 +77,14 @@ public class Login {
         edetabel.setPrefSize(100,30);
         edetabel.getStyleClass().add("lisa");
 
-        login.getChildren().addAll(pealkiri,nameField,sisesta,edetabel);
+        mutebutton = new Button("Mute");
+        mutebutton.setPrefSize(100,30);
+        mutebutton.getStyleClass().add("lisa");
+        if (mute==false){
+            mutebutton.setTextFill(Color.RED);
+        }
+
+        login.getChildren().addAll(pealkiri,nameField,sisesta,edetabel, mutebutton);
         borderPane.setCenter(login);
 
         sisesta.setOnAction(event -> {
@@ -90,6 +96,17 @@ public class Login {
             baas.loeAndmed();
             login.getChildren().removeAll(table);
             vaataBaasi();
+        });
+        mutebutton.setOnAction(event -> {
+            if (mute == true){
+                mediaPlayer.stop();
+                mutebutton.setTextFill(Color.RED);
+                mute=false;
+            } else {
+                mplayer();
+                mutebutton.setTextFill(Color.BLACK);
+                mute=true;
+            }
         });
     }
     public void actionEvent(){
@@ -105,7 +122,7 @@ public class Login {
             System.out.println(nimi);
             stage.close();
             mediaPlayer.stop();
-            new GameWindow(nimi);
+            new GameWindow(nimi,mute);
         }
     }
     public void vaataBaasi(){
@@ -149,5 +166,11 @@ public class Login {
         teade.setTextFill(Color.WHITE);
         teade.setFont(Font.font("Arial", 50));
         login.getChildren().addAll(teade,projektlicence,soundlicence);
+    }
+    public void mplayer(){
+        Media sound = new Media(new File(ssound).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
     }
 }
