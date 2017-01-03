@@ -121,7 +121,8 @@ public class Login {
         else {
             System.out.println(nimi);
             stage.close();
-            mediaPlayer.stop();
+            if (mute)
+                mediaPlayer.stop();
             new GameWindow(nimi,mute);
         }
     }
