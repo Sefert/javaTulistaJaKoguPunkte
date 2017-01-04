@@ -255,7 +255,7 @@ public class GameWindow {
                 if (valang.size() > 0) {                                            //kui eksisteerib tulistamine
                     for (int j = 0; j < valang.size(); j++) {                          //käiakse läbi kõik kuulid arrays
                         kshape = valang.get(j).liigutaKuuli(kuulikiirus);                    //kera liikumise esile kutsumine
-                        if (kshape.intersects(0, -20, 800, 5)) {                     //kuuli kontroll kujutletava piiriga allpool nähtavat ekraani
+                        if (kshape.intersects(-100, -20, 1000, 5)) {                     //kuuli kontroll kujutletava piiriga allpool nähtavat ekraani
                             valang.remove(j);                                   //sellisel juhul kuuli eemladamine
                             kuulid--;                                                //array suuruse vähendamine 1 võõra, mida kontrollitakse loobis
                         }
@@ -331,7 +331,7 @@ public class GameWindow {
         } catch (NullPointerException e) {
         }
         if (arrayidentifier == 2){
-            if (vshape.intersects(-100,-100,40,1000)) {                          //kui kuul põrkub nähtamatu elemntiga vasakul ekraani ääres
+            if (vshape.intersects(-100,-500,40,2000)) {                          //kui kuul põrkub nähtamatu elemntiga vasakul ekraani ääres
                 pane.getChildren().remove(vshape);                          //eemaldatakse kuul
                 removeVastane(i,arrayidentifier);
             }
