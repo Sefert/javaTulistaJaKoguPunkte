@@ -1,8 +1,8 @@
 # Projekt by Marko Mõznikov
 
 ##<b>Licence</b><br />
-<img src="https://licensebuttons.net/l/by-nc/3.0/88x31.png" alt="LLicence"><br />
-<b>This work is licensed under a <a href="https://creativecommons.org/licenses/by-nd/4.0/legalcode">Attribution-NoDerivatives 4.0 International</a> licence (CC BY-ND 4.0)<b><br />
+<img src="https://licensebuttons.net/l/by-nd/3.0/88x31.png" alt="LLicence"><br />
+<b>This work is licensed under a <a href="https://creativecommons.org/licenses/by-nd/4.0/legalcode">Attribution-NoDerivatives 4.0 International</a> licence (CC BY-ND 4.0)</b><br />
 
 ##<b>Juhend mängule</b><br />
 
@@ -30,7 +30,7 @@ www.soundimage.org
 <a href="http://grinder.sourceforge.net/g3/script-javadoc/HTTPClient/URI.html">URI seletus</a><br />
 <a href="https://dzone.com/articles/javafx-collections-observablelist-and-observablema">Observable list seletus</a><br />
 
-### Niisiis idee:
+## Niisiis idee:
 
 Lihtne mugandatud vanaaegne mäng, kus lendad klotisga ringi ja tulistasid teisi vastu lendavaid klotse.<br />
 Kasutaja saab sisestada oma nime ning nimi salvestatakse sqlite anmebaasi.<br />
