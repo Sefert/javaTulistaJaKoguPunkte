@@ -12,11 +12,11 @@ public class Liigu {
         return y;
     }
 
-    public double random(){
+    public double random(){                 //hetkel ei kasutata
         double r = Math.random()*100;
         return r;
     }
-    public double parapool(double x){
+    public double parapool(double x){       //hetkel ei kasutata
         double y = (a*Math.pow(x,2)) - (b*x) - c;
         System.out.println(y);
         return y;

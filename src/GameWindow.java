@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -45,7 +44,7 @@ public class GameWindow {
     String fileURI = file.toURI().toString();
 
     public GameWindow(String nimi, boolean mute){
-        if (mute) {
+        if (mute) {                                                         //kontrollitakse,kas heli on sees
             try {
                 Media sound = new Media(new File(ssound).toURI().toString());
                 mediaPlayer = new MediaPlayer(sound);
@@ -66,7 +65,7 @@ public class GameWindow {
         pane = new Pane();                                                  //pane väljatüüp
         pane.setStyle("-fx-background-color: transparent;");
         pane.getStyleClass().add("pane");
-        scene= new Scene(pane,800,800);                         //mõõtudega 800px X 800px
+        scene= new Scene(pane,800,800);                                     //mõõtudega 800px X 800px
         scene.getStylesheets().add(fileURI);
         stage= new Stage();
         stage.setScene(scene);
@@ -95,7 +94,7 @@ public class GameWindow {
         });
 
     }
-    public void valjastaVastane(int i, int j){                                     //vastase lisamine arraysse
+    public void valjastaVastane(int i, int j){                              //vastase lisamine arraysse
         circle= new Kera();
         Kera circle2= new Kera();
         juhus=new Random();
@@ -147,7 +146,7 @@ public class GameWindow {
             else
                 triger=0;
         }
-        vastased.add(i,circle);                                             //vastase lisamine arraysse(kohale i,vastane
+        vastased.add(i,circle);                                             //vastase lisamine arraysse(kohale i,vastane)
         if (triger2==0) {
             vshape3 = circle2.kera(juhus.nextInt(700) + 500, -50, juhus.nextInt(60) + 20, c, 0);
             if (d==Color.AQUAMARINE)
@@ -168,9 +167,9 @@ public class GameWindow {
         pane.getChildren().addAll(vshape,vshape3);
     }
     public void timeController(){                                           //erinevate liikumissammude muut
-        vastasekiirus += 0.3;                                                                //vasatse liikumise sammu suurendamine
+        vastasekiirus += 0.3;                                               //vasatse liikumise sammu suurendamine
         System.out.println("Kiirus on "+ vastasekiirus);
-        kuulikiirus -= 0.7;                                                             //kuuli kiiruse muut
+        kuulikiirus -= 0.7;                                                 //kuuli kiiruse muut
         System.out.println("Kuuli kiirus on "+ kuulikiirus);
     }
     private void startGame(){                                               //erinevate aegade registreerimine ja objektide liigutamine ajas
@@ -197,15 +196,15 @@ public class GameWindow {
                     laevavarv=Color.BLUEVIOLET;
                 }
                 if (lasevastane){                                           //kui tõene väljastatakse vastane
-                    valjastaVastane(vastane1, vastane2);                                     //vastane väljastatakse
+                    valjastaVastane(vastane1, vastane2);                    //vastane väljastatakse
                     vastaseAlgAeg =Math.round(now / 100_000_000);           //salvestatakse vastase algaeg
-                    vastane1++;                                                    //suurendatakse juba järgmist vastase salvestamise positsiooni arrays
+                    vastane1++;                                             //suurendatakse juba järgmist vastase salvestamise positsiooni arrays
                     vastane2++;
                     lasevastane=false;                                      //vastase väljastamine lõpetatakse pidevalt jooksvas tsükklis
                 }
-                if (vastasekiirus <1) {                                                      //kui vastase samm on
+                if (vastasekiirus <1) {                                                                 //kui vastase samm on
                     if (Math.round(now / 100_000_000) - vastaseAlgAeg == vastasevaljastamisekiirus) {   //kontrollitakse, kas praeguse aja ja algusaja vahe on 1 sekund
-                        lasevastane = true;                                     //tähendab, et iga 1 sekundi järel väljastatkse vastane
+                        lasevastane = true;                                                             //tähendab, et iga 1 sekundi järel väljastatkse vastane
                     }else if (vastased.size()==0 || vastased2.size()==0){
                         lasevastane = true;
                     }
@@ -229,67 +228,67 @@ public class GameWindow {
                    }
                 }
                 if (tulistamisealghetk){
-                    tulista(kuulid);                                                         //kui tõene kutsutakse esile tulistamine arrays kohal kuulid
+                    tulista(kuulid);                                                        //kui tõene kutsutakse esile tulistamine arrays kohal kuulid
                     kuulid++;
                     tulistamisealghetk = false;
                 }
-                for (int i=0;i<vastased.size();i++) {                                //käiakse läbi kõik vastased arrays
+                for (int i=0;i<vastased.size();i++) {                                       //käiakse läbi kõik vastased arrays nende liigutamiseks
                     if(vastased.get(i).circle.getFill() == Color.ORCHID){
                         vshape = vastased.get(i).liigutaKuuli(vastasekiirus+1);
                     } else if (vastased.get(i).circle.getFill() == Color.CORAL) {
-                        vshape = vastased.get(i).liiguXY(vastasekiirus);                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                        vshape = vastased.get(i).liiguXY(vastasekiirus);                    //kutsutakse välja vastase liikumine vastava kujundi klassis
                     }
                     int arrayidentifier=1;
                     kontrolliBarShip(vshape,i,arrayidentifier);
                 }
-                for (int i=0;i<vastased2.size();i++) {                                //käiakse läbi kõik vastased arrays
+                for (int i=0;i<vastased2.size();i++) {                                      //käiakse läbi kõik vastased arrays
                      if(vastased2.get(i).circle.getFill() == Color.AQUAMARINE){
                         vshape = vastased2.get(i).negliiguXY(vastasekiirus);
                     } else if (vastased2.get(i).circle.getFill() == Color.DARKGREEN) {
-                        vshape = vastased2.get(i).liigumiinusX(vastasekiirus+1);                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                        vshape = vastased2.get(i).liigumiinusX(vastasekiirus+1);            //kutsutakse välja vastase liikumine vastava kujundi klassis
                     }
                     int arrayidentifier=2;
                     kontrolliBarShip(vshape,i,arrayidentifier);
                 }
 
-                if (valang.size() > 0) {                                            //kui eksisteerib tulistamine
-                    for (int j = 0; j < valang.size(); j++) {                          //käiakse läbi kõik kuulid arrays
-                        kshape = valang.get(j).liigutaKuuli(kuulikiirus);                    //kera liikumise esile kutsumine
-                        if (kshape.intersects(-100, -20, 1000, 5)) {                     //kuuli kontroll kujutletava piiriga allpool nähtavat ekraani
-                            valang.remove(j);                                   //sellisel juhul kuuli eemladamine
-                            kuulid--;                                                //array suuruse vähendamine 1 võõra, mida kontrollitakse loobis
+                if (valang.size() > 0) {                                                    //kui eksisteerib tulistamine
+                    for (int j = 0; j < valang.size(); j++) {                               //käiakse läbi kõik kuulid arrays
+                        kshape = valang.get(j).liigutaKuuli(kuulikiirus);                   //kuuli liikumise esile kutsumine
+                        if (kshape.intersects(0, -20, 800, 5)) {                            //kuuli kontroll kujutletava piiriga ulevalpool nähtavat ekraani
+                            valang.remove(j);                                               //sellisel juhul kuuli eemladamine
+                            kuulid--;                                                       //array suuruse vähendamine 1 võõra, mida kontrollitakse loobis
                         }
                     }
-                    for (int i = 0; i < vastased.size(); i++) {                                //käiakse läbi kõik vastased arrays
-                        vshape = vastased.get(i).circle;                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                    for (int i = 0; i < vastased.size(); i++) {                             //kontrollitakse kuuli kokkupõrget vstase array 1ga
+                        vshape = vastased.get(i).circle;
                         int arrayidentifier=1;
                         kontrolliKuuli(vshape, i, arrayidentifier);
                     }
-                    for (int i = 0; i < vastased2.size(); i++) {                                //käiakse läbi kõik vastased arrays
-                        vshape = vastased2.get(i).circle;                            //kutsutakse välja vastase liikumine vastava kujundi klassis
+                    for (int i = 0; i < vastased2.size(); i++) {                            //kontrollitakse kuuli kokkupõrget vstase array 2ga
+                        vshape = vastased2.get(i).circle;
                         int arrayidentifier=2;
                         kontrolliKuuli(vshape, i, arrayidentifier);
                     }
                 }
-                if (Math.round(now / 1_000_000_000)- kiiruseAlgAeg == 30) {         //iga 30 sekundi tagant muudetakse vastase sammu
-                    if (vastasekiirus <3) {                                                      //vastase samm ei muutu üle 6 ühiku
-                        timeController();                                           //globaalse sammumuutuse esile kutsumine
+                if (Math.round(now / 1_000_000_000)- kiiruseAlgAeg == 30) {                 //iga 30 sekundi tagant muudetakse vastase sammu
+                    if (vastasekiirus <3) {                                                 //vastase samm ei muutu üle 3 ühiku
+                        timeController();                                                   //globaalse sammumuutuse esile kutsumine
                     }
-                    kiiruseAlgAeg = Math.round(now / 1_000_000_000);            //salvestatakse kiiruse muutmiseks vaja minev algaeg, mille suhtes kiirust muudetakse
+                    kiiruseAlgAeg = Math.round(now / 1_000_000_000);                        //salvestatakse kiiruse muutmiseks vaja minev algaeg, mille suhtes kiirust muudetakse
                     suunatriger= true;
                 }
             }
         };
-        animationTimer.start();                                                         //käivitatakse ajaliselt jooksev süsteem
+        animationTimer.start();                                                             //käivitatakse ajaliselt jooksev süsteem
     }
     public void mousePressed(){
         pane.setOnMousePressed(event -> {
-            if (event.getButton() == MouseButton.PRIMARY) {                             //premkliki defineerimine
+            if (event.getButton() == MouseButton.PRIMARY) {                                 //premkliki defineerimine
                 tulistamisealghetk =true;
                 String tsound = "src/sound/Space-Cannon.mp3";
                 player(tsound);
             }
-            if (event.getButton() == MouseButton.SECONDARY) {
+            if (event.getButton() == MouseButton.SECONDARY) {                               //vasakkliki defineerimine
                 if (laevavarv == Color.BLUEVIOLET) {
                     barjaarialghetk = true;
                     laevavarv = Color.WHITE;
@@ -305,39 +304,39 @@ public class GameWindow {
         pane.getChildren().add(bar);                                //lisa barjäär
     }
     public void tulista(int b){
-        kuul = new Kera();                                                              //uue kera tüüpi elemendi defineerimine
-        kshape = kuul.kera(tippx,tippy,3,Color.ALICEBLUE,0);                             //kuuli genereerimine
+        kuul = new Kera();
+        kshape = kuul.kera(tippx,tippy,3,Color.ALICEBLUE,0);                            //kuuli genereerimine
         valang.add(b,kuul);
-        pane.getChildren().add(kshape);                                                  //kuuli kuvamine
+        pane.getChildren().add(kshape);                                                 //kuuli kuvamine
     }
     public void kontrolliKuuli(Node vshape, int i,int arrayidentifier){
-        for (int j = 0; j < valang.size(); j++) {                          //käiakse läbi kõik kuulid arrays
-            kshape = valang.get(j).circle;                    //kera liikumise esile kutsumine
-            if (vshape.getBoundsInLocal().intersects(kshape.getBoundsInLocal()))
+        for (int j = 0; j < valang.size(); j++) {                                       //käiakse läbi kõik kuulid arrays
+            kshape = valang.get(j).circle;                                              //võetakse kuul arrayst
+            if (vshape.getBoundsInLocal().intersects(kshape.getBoundsInLocal()))        //võrreldakse mõõtmete kokkulangevust kohalikus koordinaadistikus
                 pulletCollision(vshape, kshape, i,j, arrayidentifier);
         }
     }
-    public void kontrolliBarShip(Node vshape,int i, int arrayidentifier){
-        if (vshape.intersects(-2000,900,5000,40)) {                          //kui kuul põrkub nähtamatu elemntiga üleval ekraani ääres
-            pane.getChildren().remove(vshape);                          //eemaldatakse kuul
+    public void kontrolliBarShip(Node vshape,int i, int arrayidentifier){               //barjääri ja laeva kokkupõrge vastasega
+        if (vshape.intersects(-2000,900,5000,40)) {
+            pane.getChildren().remove(vshape);                                          //eemaldatakse vastane
             removeVastane(i,arrayidentifier);
         }
         try {
             if (ship.getBoundsInLocal().intersects(vshape.getBoundsInLocal()))
-                shipCollision(vshape);                                      //kosmoslaeva kokkupõrke kontroll vaastasega
+                shipCollision(vshape);                                                  //kosmoslaeva kokkupõrke vastasega
             if (genbarjaar)
                 if (bar.getBoundsInLocal().intersects(vshape.getBoundsInLocal()))
-                    barjaarCollision(vshape, i,arrayidentifier);                             //vastase kokkupõrge barjääriga
+                    barjaarCollision(vshape, i,arrayidentifier);                        //vastase kokkupõrge barjääriga
         } catch (NullPointerException e) {
         }
         if (arrayidentifier == 2){
-            if (vshape.intersects(-100,-500,40,2000)) {                          //kui kuul põrkub nähtamatu elemntiga vasakul ekraani ääres
-                pane.getChildren().remove(vshape);                          //eemaldatakse kuul
+            if (vshape.intersects(-100,-100,40,1500)) {                                 //kui vastane2 põrkub nähtamatu elemntiga vasakul ekraani ääres
+                pane.getChildren().remove(vshape);                                      //eemaldatakse vastane
                 removeVastane(i,arrayidentifier);
             }
         }
     }
-    public void removeVastane(int i,int arrayidentifier){
+    public void removeVastane(int i,int arrayidentifier){                               //vastase eemaldamine korduvkasutuse tõttu
         if (arrayidentifier == 1) {
             vastased.remove(i);
             vastane1--;
@@ -352,8 +351,8 @@ public class GameWindow {
         return score;                                                                   //tagastab punktide väärtuse
     }
     public void pulletCollision(Node vshape, Node kshape, int i,int j, int arrayidentifier){                 //kuuli kokkupõrge vastasega
-        if (vshape.getBoundsInLocal().getHeight()>70) {                              //kui vastase kõrgus on suurem kui 70
-            Kera uuscircle = new Kera();                                              //tehakse uus vastane ja aesetatakse väiksemana järgnevalt fikseeritud positsioonile
+        if (vshape.getBoundsInLocal().getHeight()>70) {                                 //kui vastase kõrgus on suurem kui 70
+            Kera uuscircle = new Kera();                                                //tehakse uus vastane ja aesetatakse väiksemana järgnevalt fikseeritud positsioonile
             double xmax = vshape.getBoundsInLocal().getMaxX();
             double xmin = vshape.getBoundsInLocal().getMinX();
             double ymax = vshape.getBoundsInLocal().getMaxY();
@@ -413,13 +412,13 @@ public class GameWindow {
         mediaPlayer.stop();
         login.gameOver();
     }
-    public  void barjaarCollision(Node vshape, int i,int arrayidentifier){                          //barjääri kokkupõrge vastasega
+    public  void barjaarCollision(Node vshape, int i,int arrayidentifier){      //barjääri kokkupõrge vastasega
         pane.getChildren().remove(vshape);
         fullscore = scoreCounter(100);
         stage.setTitle("Shooter - punktisumma on:  " + fullscore);
         removeVastane(i,arrayidentifier);
     }
-    public  void  player(String heli){
+    public  void  player(String heli){                                          //heli
         if (mutesound) {
             try {
                 Media sound = new Media(new File(heli).toURI().toString());

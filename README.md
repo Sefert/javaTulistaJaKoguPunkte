@@ -1,5 +1,9 @@
 # Projekt by Marko Mõznikov
 
+##<b>Litsens</b><br />
+https://licensebuttons.net/l/by-nc/3.0/88x31.png<br />
+<b>This work is licensed under a <a href="https://creativecommons.org/licenses/by-nd/4.0/legalcode">Attribution-NoDerivatives 4.0 International</a> licence (CC BY-ND 4.0)<b><br />
+
 ##<b>Juhend mängule</b><br />
 Laev liigub hiirt liigutades<br />
 Tulistada saab vasaku hiirenupu alt<br />
@@ -11,6 +15,19 @@ Vastase pihta ei tohi minna-ainult 1 elu.<br />
 Music (and/or Sound Effects) by Eric Matyas
 
 www.soundimage.org
+
+##Kasutatud abimaterialid<br />
+
+<a href="http://stackoverflow.com/questions/13455326/javafx-tableview-text-alignment">CSS abimaterial</a><br />
+<a href="http://www.w3schools.com/">CSS , andmebaasi abimaterial</a><br />
+<a href="http://i200.itcollege.ee/">Java abimaterialid</a><br />
+<a href="https://www.tutorialspoint.com/sqlite/sqlite_java.htm">Andmebaasi abimaterialid I</a><br />
+<a href="http://docs.oracle.com/javafx/2/ui_controls/table-view.htm">Andmebaasi abimaterialid II</a><br />
+<a href="http://sqlitebrowser.org/">Andmebaasi abimaterialid III</a><br />
+<a href="https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html">Andmebaasi abimaterialid IV</a><br />
+<a href="https://blog.idrsolutions.com/2014/04/use-external-css-files-javafx/">Mediaplayeri abimaterialid</a><br />
+<a href="http://grinder.sourceforge.net/g3/script-javadoc/HTTPClient/URI.html">URI seletus</a><br />
+<a href="https://dzone.com/articles/javafx-collections-observablelist-and-observablema">Observable list seletus</a><br />
 
 ## Niisiis idee:
 
