@@ -6,6 +6,7 @@
 
 ##<b>Juhend mängule</b><br />
 
+Andmebaasi kasutamiseks fili sqlite-jdbc-3.14.2.1.jar parema kliki alt Add as Library
 Laev liigub hiirt liigutades<br />
 Tulistada saab vasaku hiirenupu alt<br />
 Punktisumma on vasakul üleval ääres<br />
