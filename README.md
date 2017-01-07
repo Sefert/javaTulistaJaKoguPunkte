@@ -27,7 +27,8 @@ www.soundimage.org
 <a href="http://docs.oracle.com/javafx/2/ui_controls/table-view.htm">Andmebaasi abimaterialid II</a><br />
 <a href="http://sqlitebrowser.org/">Andmebaasi abimaterialid III</a><br />
 <a href="https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html">Andmebaasi abimaterialid IV</a><br />
-<a href="https://blog.idrsolutions.com/2014/04/use-external-css-files-javafx/">Mediaplayeri abimaterialid</a><br />
+<a href="https://blog.idrsolutions.com/2014/04/use-external-css-files-javafx/">Väliste filie kasutamine, nagu css</a><br />
+<a href="http://stackoverflow.com/questions/8042671/how-to-play-clean-audio-loops-and-one-shot-sounds-in-parallel-in-javafx-2-0">Mediaplayeri abi</a><br />
 <a href="http://grinder.sourceforge.net/g3/script-javadoc/HTTPClient/URI.html">URI seletus</a><br />
 <a href="https://dzone.com/articles/javafx-collections-observablelist-and-observablema">Observable list seletus</a><br />
 
